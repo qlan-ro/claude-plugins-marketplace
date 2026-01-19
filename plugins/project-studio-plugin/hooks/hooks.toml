@@ -1,0 +1,50 @@
+# Project Studio Hooks
+# Automated validation and formatting for project artifacts
+
+# Validate PRD structure after creation/edit
+[[hooks]]
+event = "PostToolUse"
+tools = ["Write", "Edit"]
+matcher = { type = "file_path", pattern = "**/PRODUCT_PRD.md" }
+command = "bash hooks/validate-prd.sh"
+
+# Validate Feature PRD story sizing
+[[hooks]]
+event = "PostToolUse"
+tools = ["Write", "Edit"]
+matcher = { type = "file_path", pattern = "**/features/*/PRD.md" }
+command = "bash hooks/validate-feature-prd.sh"
+
+# Initialize progress.txt when Feature PRD is created
+[[hooks]]
+event = "PostToolUse"
+tools = ["Write"]
+matcher = { type = "file_path", pattern = "**/features/*/PRD.md" }
+command = "bash hooks/init-progress.sh"
+
+# Validate architecture document has required sections
+[[hooks]]
+event = "PostToolUse"
+tools = ["Write", "Edit"]
+matcher = { type = "file_path", pattern = "**/ARCHITECTURE.md" }
+command = "bash hooks/validate-architecture.sh"
+
+# Validate design document has required sections
+[[hooks]]
+event = "PostToolUse"
+tools = ["Write", "Edit"]
+matcher = { type = "file_path", pattern = "**/DESIGN.md" }
+command = "bash hooks/validate-design.sh"
+
+# Auto-format YAML files
+[[hooks]]
+event = "PostToolUse"
+tools = ["Write", "Edit"]
+matcher = { type = "file_extension", extensions = [".yaml", ".yml"] }
+command = "npx prettier --write"
+
+# Reminder to run gate-check after phase artifacts complete
+[[hooks]]
+event = "Stop"
+tools = []
+command = "bash hooks/suggest-gate-check.sh"

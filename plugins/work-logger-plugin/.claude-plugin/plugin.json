@@ -1,0 +1,11 @@
+{
+  "name": "work-logger",
+  "version": "2.0.0",
+  "description": "Generates Slack status messages from AI assistant session history (Claude Code, Codex, Junie)",
+  "author": {
+    "name": "Doru Chiulan"
+  },
+  "license": "MIT",
+  "keywords": ["status", "slack", "work-tracking", "ai-sessions", "session-parser"],
+  "commands": "./commands"
+}

@@ -1,0 +1,23 @@
+{
+  "hooks": [
+    {
+      "name": "pre-commit-reminder",
+      "event": "beforeCommit",
+      "description": "Reminds about tests and linting before commits",
+      "action": {
+        "type": "prompt",
+        "message": "Before committing, have you:\n- [ ] Run tests?\n- [ ] Checked for linting errors?\n- [ ] Reviewed your changes?"
+      }
+    },
+    {
+      "name": "new-file-template",
+      "event": "afterFileCreate",
+      "description": "Suggests adding standard headers to new files",
+      "match": "**/*.{js,ts,py}",
+      "action": {
+        "type": "suggest",
+        "message": "Consider adding a file header with author, date, and description."
+      }
+    }
+  ]
+}
