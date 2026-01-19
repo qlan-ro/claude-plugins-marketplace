@@ -42,23 +42,6 @@
       "tags": ["slack", "status", "work-log", "sessions"],
       "source": "./plugins/work-logger-plugin",
       "strict": false
-    },
-    {
-      "name": "example-utils",
-      "version": "1.0.0",
-      "description": "Utility commands for code explanation, summarization, documentation generation, and code review",
-      "author": {
-        "name": "Doru Chiulan",
-        "url": "https://github.com/qlan-ro"
-      },
-      "homepage": "https://github.com/qlan-ro/claude-plugins-marketplace",
-      "repository": "https://github.com/qlan-ro/claude-plugins-marketplace",
-      "license": "MIT",
-      "keywords": ["utilities", "documentation", "code-review", "productivity"],
-      "category": "productivity",
-      "tags": ["docs", "explain", "summarize", "review"],
-      "source": "./plugins/example-utils",
-      "strict": false
     }
   ]
 }

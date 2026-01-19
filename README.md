@@ -1,6 +1,6 @@
-# My Claude Code Plugin Marketplace
+# QLAN Claude Code Plugin Marketplace
 
-A personal collection of Claude Code plugins for enhanced development workflows.
+A collection of Claude Code plugins for enhanced development workflows by QLAN Software Solutions.
 
 ## Installation
 
@@ -20,24 +20,33 @@ claude plugins:install github:qlan-ro/claude-plugins-marketplace/plugins/PLUGIN_
 
 | Plugin | Description | Version |
 |--------|-------------|---------|
-| [example-utils](./plugins/example-utils) | Utility commands and helpers | 1.0.0 |
+| [project-studio](./plugins/project-studio-plugin) | Full-stack product development orchestration with PRD building, architecture design, UX design, and implementation planning | 1.0.0 |
+| [work-logger](./plugins/work-logger-plugin) | Generates Slack status messages from AI assistant session history (Claude Code, Codex, Junie) | 2.0.0 |
 
 ## Directory Structure
 
 ```
 claude-plugins-marketplace/
+├── .claude-plugin/
+│   └── marketplace.json         # Marketplace registry (lists all plugins)
 ├── README.md                    # This file
-├── plugins/                     # All plugins live here
-│   └── example-utils/           # Example plugin
+├── plugins/
+│   ├── project-studio-plugin/   # Product development orchestration
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   ├── agents/              # PRD, architect, designer agents
+│   │   ├── commands/            # new-project, add-feature, phase, gate-check
+│   │   ├── skills/              # orchestration, prd-discovery, ux-design
+│   │   ├── hooks/               # Validation hooks
+│   │   └── references/          # Phase guides and checklists
+│   └── work-logger-plugin/      # Slack status generator
 │       ├── .claude-plugin/
-│       │   └── plugin.json      # Plugin metadata
-│       ├── commands/            # Slash commands
-│       ├── agents/              # Specialized agents
-│       ├── skills/              # Agent skills
-│       ├── hooks/               # Event handlers
-│       └── README.md            # Plugin documentation
-└── templates/                   # Templates for creating new plugins
-    └── basic-plugin/            # Basic plugin template
+│       │   └── plugin.json
+│       ├── commands/            # slack-status command
+│       ├── skills/              # slack-status-writer skill
+│       └── parsers/             # Session parsers (Claude, Codex, Junie)
+└── templates/
+    └── basic-plugin/            # Template for new plugins
 ```
 
 ## Creating a New Plugin
