@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Skill(work-logger:slack-status-writer)"
-    ]
-  }
-}
