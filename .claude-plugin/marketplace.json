@@ -11,7 +11,7 @@
   "plugins": [
     {
       "name": "project-studio",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "Full-stack product development orchestration from idea to production-ready code. Provides specialized agents for PRD building, architecture design, UX design, and implementation planning.",
       "author": {
         "name": "Doru Chiulan",

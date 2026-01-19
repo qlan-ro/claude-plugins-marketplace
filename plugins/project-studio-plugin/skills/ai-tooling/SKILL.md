@@ -6,6 +6,9 @@ description: |
   - Classifying projects by tech stack and features
   - Querying the tooling registry
   - Generating .ai-workflow.yaml configuration
+  - **Generating project CLAUDE.md** (project-specific instructions)
+  - **Checking global ~/.claude/CLAUDE.md** (security gatekeeper)
+  - **Checking LSP status** for detected languages
   - Auditing existing projects for missing tools (continue-project workflow)
 
   This skill is domain-specific - it knows HOW to recommend AI tooling, not workflow phases.
@@ -14,6 +17,19 @@ description: |
 # AI Tooling Configuration
 
 Recommend and configure optimal AI tools (skills, agents, MCP servers) for projects.
+Also generates CLAUDE.md files and verifies LSP status.
+
+## Key Insight: Defense in Depth
+
+From Claude Code Mastery guide:
+
+| Layer | Mechanism | Reliability |
+|-------|-----------|-------------|
+| 1 | CLAUDE.md rules | Suggestion (can be overridden under context pressure) |
+| 2 | Hooks (PreToolUse) | **Deterministic** (always executes) |
+| 3 | .gitignore | Git-level protection |
+
+**CLAUDE.md is a security gatekeeper** - behavioral rules that prevent accidental secret exposure even when Claude has file access.
 
 ## Two Modes
 
@@ -28,19 +44,25 @@ Analyze existing project, detect what's configured, identify gaps, suggest addit
 ## Process Overview
 
 ### New Project Flow
-1. **Classify** the project by tech stack and features
-2. **Query** the registry for matching tools
-3. **Present** recommendations with rationale
-4. **Customize** based on user input
-5. **Generate** `.ai-workflow.yaml` configuration
+1. **Check** global `~/.claude/CLAUDE.md` exists (security gatekeeper)
+2. **Classify** the project by tech stack and features
+3. **Query** the registry for matching tools (always include Context7)
+4. **Check** LSP status for detected languages
+5. **Present** recommendations with rationale
+6. **Customize** based on user input
+7. **Generate** `CLAUDE.md` (project-specific instructions)
+8. **Generate** `.ai-workflow.yaml` configuration
 
 ### Audit Flow (Existing Projects)
-1. **Detect** existing configuration (.ai-workflow.yaml, .claude/, claude.json)
-2. **Read** CODEBASE_ANALYSIS.md and ARCHITECTURE.md for tech stack
-3. **Compare** configured tools vs. recommended tools
-4. **Identify** gaps (missing skills, agents, MCP servers)
-5. **Suggest** additions for new features (📋 items from PRD)
-6. **Update** or create `.ai-workflow.yaml`
+1. **Detect** existing configuration (.ai-workflow.yaml, CLAUDE.md, .claude/, claude.json)
+2. **Check** global `~/.claude/CLAUDE.md` exists
+3. **Read** CODEBASE_ANALYSIS.md and ARCHITECTURE.md for tech stack
+4. **Check** LSP status for detected languages
+5. **Compare** configured tools vs. recommended tools
+6. **Identify** gaps (missing skills, agents, MCP servers, CLAUDE.md)
+7. **Suggest** additions for new features (📋 items from PRD)
+8. **Generate** CLAUDE.md if missing
+9. **Update** or create `.ai-workflow.yaml`
 
 ## Step 1: Project Classification
 
@@ -128,9 +150,22 @@ Reference: `references/registry.md`
 - test-generator (all projects)
 
 **Global MCP Servers:**
+- context7 (ALWAYS - live documentation, solves training cutoff)
 - filesystem (built-in)
 - git (built-in)
 - fetch (built-in)
+
+**LSP Check (900x faster code navigation):**
+| Language | Status |
+|----------|--------|
+| TypeScript/JS | ✅ Built-in |
+| Python | ✅ Built-in |
+| Go | ✅ Built-in |
+| Rust | ✅ Built-in |
+| Java | ✅ Built-in |
+| Scala | ✅ Built-in |
+
+For older Claude Code versions: `export ENABLE_LSP_TOOL=1`
 
 ## Step 3: Present Recommendations
 
@@ -165,13 +200,24 @@ Based on your project classification:
 
 | Server | Command | Config |
 |--------|---------|--------|
+| context7 | npx -y @upstash/context7-mcp@latest | None (ALWAYS recommended) |
 | postgres | npx -y @anthropic/mcp-postgres | DATABASE_URL |
 | github | npx -y @anthropic/mcp-github | GITHUB_TOKEN |
+
+### LSP Status
+| Language | Status |
+|----------|--------|
+| TypeScript | ✅ Built-in (900x faster navigation) |
+| Python | ✅ Built-in |
+
+### CLAUDE.md Status
+- Global (~/.claude/CLAUDE.md): ✅ Exists / ⚠️ Missing (suggest creation)
+- Project (./CLAUDE.md): Will be generated
 
 ### Questions
 
 1. Approve this configuration?
-   A. Yes, generate .ai-workflow.yaml
+   A. Yes, generate CLAUDE.md and .ai-workflow.yaml
    B. Add more tools
    C. Remove some tools
    D. Start over
@@ -185,7 +231,60 @@ Allow modifications:
 - Configure MCP server settings
 - Specify custom skills to create
 
-## Step 5: Generate Configuration
+## Step 5: Check and Suggest Global CLAUDE.md
+
+```bash
+# Check if global CLAUDE.md exists
+if [ -f ~/.claude/CLAUDE.md ]; then
+  echo "✅ Global CLAUDE.md exists"
+else
+  echo "⚠️ Global CLAUDE.md missing"
+fi
+```
+
+**If missing**, recommend creating using `assets/templates/global-claude-md-template.md`:
+
+```markdown
+### Global CLAUDE.md Recommendation
+
+Your global ~/.claude/CLAUDE.md is missing. This file acts as a **security gatekeeper**
+for ALL your projects.
+
+**Recommended:** Create it with these sections:
+- GitHub account identity
+- **NEVER rules** (never commit .env, never publish secrets)
+- New project scaffolding standards
+- Chat hygiene guidelines (one task, one chat)
+
+**Template available at:** `assets/templates/global-claude-md-template.md`
+
+Create now? [Yes / Skip]
+```
+
+## Step 6: Generate Project CLAUDE.md
+
+Output: `CLAUDE.md` at project root
+
+Use template at `assets/templates/project-claude-md-template.md` and fill:
+- `{{PROJECT_NAME}}` - from PRD
+- `{{PROJECT_DESCRIPTION}}` - from PRD overview
+- `{{TECH_STACK}}` - from classification
+- `{{NEVER_RULES}}` - project-specific restrictions
+- `{{SKILLS_TABLE}}` - from selected skills
+- `{{MCP_SERVERS_TABLE}}` - from selected MCP servers
+- `{{QUICK_COMMANDS}}` - npm/yarn/etc commands
+
+**Include Chat Hygiene section** (research shows 39% degradation when mixing topics):
+```markdown
+## Chat Hygiene
+
+### One Task, One Chat
+- Start new chat for each distinct feature
+- Use `/clear` between phases
+- After 20+ turns, consider starting fresh
+```
+
+## Step 7: Generate .ai-workflow.yaml
 
 Output: `.ai-workflow.yaml`
 
@@ -422,19 +521,27 @@ skills:
 
 ## Checklist: New Project Mode
 
+- [ ] Global `~/.claude/CLAUDE.md` checked (exists or user notified)
 - [ ] Project classified by tech stack
 - [ ] Registry queried for matching tools
+- [ ] Context7 MCP server included (live documentation)
+- [ ] LSP status checked for all detected languages
 - [ ] Recommendations presented to user
 - [ ] User approved or customized
+- [ ] Project `CLAUDE.md` generated (with chat hygiene guidelines)
 - [ ] `.ai-workflow.yaml` generated
 
 ## Checklist: Audit Mode
 
 - [ ] Existing config detected and parsed
+- [ ] Global `~/.claude/CLAUDE.md` checked (exists or user notified)
+- [ ] Project `CLAUDE.md` checked (exists or will be generated)
 - [ ] Tech stack read from analysis docs
-- [ ] Gap analysis completed
+- [ ] LSP status checked for all detected languages
+- [ ] Gap analysis completed (including Context7 MCP)
 - [ ] New feature needs identified
 - [ ] Recommendations presented
+- [ ] Project `CLAUDE.md` generated if missing
 - [ ] Config updated or created
 
 ---

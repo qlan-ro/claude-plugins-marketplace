@@ -190,10 +190,106 @@ if (error) return <ErrorMessage error={error} />;
 return <DataDisplay data={data} />;
 ```
 
+## Git Workflow Integration
+
+Development phase integrates with the **git-workflow** agent for version control.
+
+### Starting a Feature
+
+When entering Phase 6 for a new Feature PRD:
+
+```bash
+# git-workflow agent (branch mode) creates feature branch
+git checkout -b feature/{feature-name}
+```
+
+### After Each User Story
+
+When a story is marked complete in `progress.txt`:
+
+1. **Orchestrator** detects completion
+2. **git-workflow agent** (story-commit mode) is spawned
+3. Agent runs verification:
+   ```bash
+   npm run lint && npm run typecheck && npm test
+   ```
+4. Agent stages and commits:
+   ```bash
+   git add .
+   git commit -m "feat(scope): description
+
+   Refs: US-XXX
+   Co-Authored-By: Claude <noreply@anthropic.com>"
+   ```
+5. Agent updates `progress.txt`:
+   ```
+   [x] US-XXX: Story title - COMMITTED (abc1234)
+   ```
+
+### After Feature Complete
+
+When all stories are committed:
+
+1. **Orchestrator** runs gate-check
+2. **git-workflow agent** (feature-pr mode) is spawned
+3. Agent pushes and creates PR:
+   ```bash
+   git push -u origin feature/{feature-name}
+   gh pr create --title "..." --body "..."
+   ```
+4. Agent returns PR URL to orchestrator
+
+### Progress File Format
+
+```
+# Feature: {Feature Name}
+# Branch: feature/{feature-name}
+
+[x] US-001: First story - COMMITTED (abc1234)
+[x] US-002: Second story - COMMITTED (def5678)
+[ ] US-003: Third story - IN_PROGRESS
+[ ] US-004: Fourth story - PENDING
+
+# Status: 2/4 stories committed
+# PR: Not yet created
+```
+
+### Manual Git Commands
+
+If you need manual control:
+
+```bash
+# Manually commit current work
+/commit "feat(scope): description"
+
+# Manually create PR
+/pr
+
+# Check git status
+git status
+git log --oneline -5
+```
+
+### Conventional Commit Types
+
+| Type | When to Use |
+|------|-------------|
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `refactor` | Code restructuring |
+| `test` | Adding/updating tests |
+| `docs` | Documentation |
+| `style` | Formatting only |
+| `chore` | Build/tooling |
+
+---
+
 ## Phase Gate Checklist
 Before proceeding to Quality:
 - [ ] All planned features implemented
+- [ ] All stories committed (check progress.txt)
 - [ ] Core tests passing
 - [ ] No critical bugs
 - [ ] Code reviewed (or self-reviewed)
 - [ ] Basic error handling in place
+- [ ] PR created (if feature complete)

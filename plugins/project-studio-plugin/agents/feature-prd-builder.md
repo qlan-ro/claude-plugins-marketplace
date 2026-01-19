@@ -48,9 +48,39 @@ Every story MUST include:
 - `Typecheck passes` (always)
 - `Verify changes work in browser` (UI stories only)
 
+## Git Integration
+
+When creating a Feature PRD:
+
+1. **Initialize branch** - Orchestrator spawns git-workflow (branch mode)
+2. **Create progress.txt** with git tracking format:
+
+```
+# Feature: {Feature Name}
+# Branch: feature/{feature-name}
+# Created: {date}
+
+[ ] US-001: {title} - PENDING
+[ ] US-002: {title} - PENDING
+[ ] US-003: {title} - PENDING
+
+# Status: 0/{total} stories committed
+# PR: Not yet created
+```
+
+3. **Story completion triggers commit** - After each story:
+   - Story marked `[x]` in progress.txt
+   - git-workflow agent commits with conventional message
+   - Status updated to `COMMITTED (sha)`
+
+4. **Feature completion triggers PR** - When all stories committed:
+   - git-workflow agent creates PR
+   - PR URL added to progress.txt
+
 ## Completion
 
 When Feature PRDs are complete:
 1. Summarize story count and estimated complexity
 2. Confirm execution order with user
-3. Return output to orchestrator
+3. **Trigger git-workflow (branch mode)** to create feature branch
+4. Return output to orchestrator

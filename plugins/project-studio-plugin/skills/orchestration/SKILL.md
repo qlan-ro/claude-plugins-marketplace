@@ -306,3 +306,137 @@ Phase 2 uses the **ai-tooling-advisor** agent to:
 4. **Generate `.ai-workflow.yaml`** from template
 
 See `references/phases/02-ai-workflow.md` for detailed instructions.
+
+---
+
+## Git Workflow Integration
+
+The **git-workflow** agent handles all version control operations during development.
+
+### When Git Workflow Runs
+
+| Trigger | Mode | What Happens |
+|---------|------|--------------|
+| Starting Feature PRD | `branch` | Create feature branch |
+| User story complete | `story-commit` | Commit changes with conventional message |
+| All stories complete | `feature-pr` | Create PR and push |
+
+### Development Flow with Git
+
+```
+Phase 5: PLANNING
+    │
+    └─► git-workflow (branch mode)
+        └─► Creates: feature/{feature-name}
+
+Phase 6: DEVELOPMENT (Ralph Loop)
+    │
+    ├─► Story US-001 complete
+    │   └─► git-workflow (story-commit mode)
+    │       └─► Commit: "feat(scope): description"
+    │
+    ├─► Story US-002 complete
+    │   └─► git-workflow (story-commit mode)
+    │       └─► Commit: "feat(scope): description"
+    │
+    └─► All stories complete
+        └─► git-workflow (feature-pr mode)
+            └─► Creates PR, returns URL
+
+Phase 7: QUALITY
+    └─► Review PR, merge when approved
+```
+
+### Orchestrator Integration
+
+After each user story is marked complete in `progress.txt`:
+
+```
+1. Orchestrator detects story completion
+2. Spawns git-workflow agent (story-commit mode)
+3. Agent verifies (tests, lint)
+4. Agent commits with conventional message
+5. Agent updates progress.txt with commit SHA
+6. Orchestrator continues to next story
+```
+
+After all stories in Feature PRD are complete:
+
+```
+1. Orchestrator detects feature completion
+2. Runs /gate-check for Phase 6→7
+3. Spawns git-workflow agent (feature-pr mode)
+4. Agent pushes branch
+5. Agent creates PR via GitHub CLI
+6. Agent returns PR URL
+7. Orchestrator reports PR to user
+```
+
+### Progress File Format
+
+```
+# Feature: Booking Discounts
+# Branch: feature/booking-discounts
+
+[x] US-001: Add discount field - COMMITTED (abc1234)
+[x] US-002: Discount validation - COMMITTED (def5678)
+[x] US-003: Apply discount to total - COMMITTED (ghi9012)
+[ ] US-004: Discount reports - IN_PROGRESS
+[ ] US-005: Admin discount management - PENDING
+
+# Status: 3/5 stories committed
+# PR: Not yet created
+```
+
+After feature completion:
+```
+# Status: 5/5 stories committed
+# PR: #123 (https://github.com/org/repo/pull/123)
+```
+
+### Updated Agent Routing Table (Phase 6)
+
+| Step | Agent | Mode | Output |
+|------|-------|------|--------|
+| Start feature | git-workflow | branch | Feature branch |
+| Story complete | git-workflow | story-commit | Commit SHA |
+| Feature complete | git-workflow | feature-pr | PR URL |
+
+### Slash Command Updates
+
+#### `/commit` (New)
+Manually trigger a commit for current work:
+```
+/commit "feat(bookings): add discount field"
+```
+Spawns git-workflow in story-commit mode.
+
+#### `/pr` (New)
+Manually create a PR for current feature:
+```
+/pr
+```
+Spawns git-workflow in feature-pr mode.
+
+### Safety Rules
+
+The git-workflow agent enforces:
+
+- **No force push** to main/master
+- **No commits** without passing tests
+- **No secrets** in committed code
+- **Conventional commits** format required
+- **Story reference** in commit messages
+
+### Configuration
+
+Git workflow behavior can be customized in `.ai-workflow.yaml`:
+
+```yaml
+git:
+  auto_commit: true          # Commit after each story
+  auto_pr: true              # Create PR when feature complete
+  branch_prefix: "feature/"  # Branch naming
+  require_tests: true        # Must pass tests before commit
+  conventional_commits: true # Enforce conventional format
+```

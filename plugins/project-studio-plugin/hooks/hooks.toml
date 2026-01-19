@@ -1,6 +1,65 @@
 # Project Studio Hooks
 # Automated validation and formatting for project artifacts
 
+# =============================================================================
+# SECURITY HOOKS (PreToolUse) - Deterministic enforcement
+# These hooks BLOCK dangerous operations. CLAUDE.md rules can be ignored
+# under context pressure, but hooks always execute.
+# =============================================================================
+
+# Block access to sensitive files (.env, secrets, credentials, keys)
+[[hooks]]
+event = "PreToolUse"
+tools = ["Read", "Edit", "Write"]
+matcher = { type = "file_path", pattern = "**/.env*" }
+command = "bash hooks/block-secrets.sh"
+
+[[hooks]]
+event = "PreToolUse"
+tools = ["Read", "Edit", "Write"]
+matcher = { type = "file_path", pattern = "**/secrets.json" }
+command = "bash hooks/block-secrets.sh"
+
+[[hooks]]
+event = "PreToolUse"
+tools = ["Read", "Edit", "Write"]
+matcher = { type = "file_path", pattern = "**/credentials.json" }
+command = "bash hooks/block-secrets.sh"
+
+[[hooks]]
+event = "PreToolUse"
+tools = ["Read", "Edit", "Write"]
+matcher = { type = "file_path", pattern = "**/*.pem" }
+command = "bash hooks/block-secrets.sh"
+
+[[hooks]]
+event = "PreToolUse"
+tools = ["Read", "Edit", "Write"]
+matcher = { type = "file_path", pattern = "**/*.key" }
+command = "bash hooks/block-secrets.sh"
+
+[[hooks]]
+event = "PreToolUse"
+tools = ["Read", "Edit", "Write"]
+matcher = { type = "file_path", pattern = "**/id_rsa*" }
+command = "bash hooks/block-secrets.sh"
+
+[[hooks]]
+event = "PreToolUse"
+tools = ["Read", "Edit", "Write"]
+matcher = { type = "file_path", pattern = "**/id_ed25519*" }
+command = "bash hooks/block-secrets.sh"
+
+# Block dangerous shell commands (force push, hard reset, rm -rf, etc.)
+[[hooks]]
+event = "PreToolUse"
+tools = ["Bash"]
+command = "bash hooks/block-dangerous-commands.sh"
+
+# =============================================================================
+# VALIDATION HOOKS (PostToolUse) - Document structure validation
+# =============================================================================
+
 # Validate PRD structure after creation/edit
 [[hooks]]
 event = "PostToolUse"

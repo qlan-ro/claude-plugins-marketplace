@@ -11,6 +11,28 @@ In production, this will be fetched dynamically from providers like `skillsmp.co
 | AITemplates | https://aitmpl.com | Skills & agents |
 | MCP Registry | https://mcp-registry.anthropic.com | MCP servers |
 | Claude Default | Built-in | Default skills |
+| awesome-mcp-servers | https://github.com/punkpeye/awesome-mcp-servers | MCP directory (76k+ stars) |
+| mcpservers.org | https://mcpservers.org | Searchable MCP directory |
+
+---
+
+## When to Use MCP vs Alternatives
+
+**Important:** MCP servers consume tokens and context. For simple integrations, consider alternatives:
+
+| Use Case | MCP Overhead | Better Alternative | When to Use MCP |
+|----------|--------------|-------------------|-----------------|
+| One-off API call | High | `curl` via Bash | Repeated API calls in same chat |
+| Simple file read | High | Built-in Read tool | Complex file operations |
+| Trello/Jira task | High | CLI tool (trello-cli) | Repeated task management |
+| One-off DB query | Medium | Direct SQL via Bash | Complex queries, schema exploration |
+| Web scraping | Medium | Built-in WebFetch | Heavy scraping, logged-in sessions |
+
+**Rule of thumb:** If you're calling an MCP tool once per session, a CLI is more efficient. MCP shines for:
+- Repeated tool use within conversations
+- Tools requiring authentication state
+- Complex multi-step operations
+- Real-time data access (live docs, databases)
 
 ## How to Use This Registry
 
@@ -72,10 +94,6 @@ When configuring AI workflow (Phase 2), query this registry to find matching too
 |----------|------|---------|----------------|
 | `scala-spring-patterns` | Scala + Spring | Spring Boot patterns for Scala | smile-app, DBricks_Optimizer, auth |
 | `databricks-development` | Databricks Dev | Unity Catalog, Jobs, SDK | bp-informatica, DBricks_Optimizer |
-| `bank-integration` | Bank Integration | ING/Revolut/Tink parsing | ing, tink |
-| `oauth2-jwt` | OAuth2/JWT | Authentication patterns | smile-app |
-| `product-sync` | Product Sync | API sync patterns | smile-price-manager |
-| `informatica-xml` | Informatica XML | ETL XML parsing | bp-informatica |
 
 ---
 
@@ -114,7 +132,25 @@ When configuring AI workflow (Phase 2), query this registry to find matching too
 
 ## MCP Servers Registry
 
-### Global MCP Servers (Always Available)
+### Recommended Global MCP Servers
+
+These MCP servers are recommended for **all projects**:
+
+| Server ID | Name | Command | Purpose | Priority |
+|-----------|------|---------|---------|----------|
+| `context7` | Context7 | `npx -y @upstash/context7-mcp@latest` | **Live documentation** for any library - solves outdated training data | **HIGH** |
+| `github` | GitHub | `npx -y @modelcontextprotocol/server-github` | PRs, issues, CI/CD integration | HIGH |
+| `sequential-thinking` | Sequential Thinking | `npx -y @modelcontextprotocol/server-sequential-thinking` | Structured problem-solving | MEDIUM |
+
+**Why Context7 is essential:** Claude's training has a cutoff date. When you ask about a library released or updated after training, you get outdated answers. Context7 fetches current documentation in real-time.
+
+```bash
+# Install recommended global MCP servers
+claude mcp add context7 -- npx -y @upstash/context7-mcp@latest
+claude mcp add github -- npx -y @modelcontextprotocol/server-github
+```
+
+### Built-in MCP Servers (Always Available)
 
 | Server ID | Name | Command | Purpose |
 |-----------|------|---------|---------|
@@ -146,7 +182,31 @@ When configuring AI workflow (Phase 2), query this registry to find matching too
 |-----------|------|---------|----------|
 | `jetbrains` | JetBrains IDE | `java -classpath ... McpStdioRunnerKt` | IJ_MCP_SERVER_PORT |
 | `notion` | Notion | `npx -y @anthropic/mcp-notion` | NOTION_TOKEN |
-| `github` | GitHub | `npx -y @anthropic/mcp-github` | GITHUB_TOKEN |
+| `playwright` | Playwright | `npx -y @anthropic-ai/playwright-mcp` | - |
+
+### Documents & RAG MCP Servers
+
+| Server ID | Name | Command | Purpose |
+|-----------|------|---------|---------|
+| `docling` | Docling | `uvx docling-mcp-server` | PDF/DOCX parsing, 97.9% table accuracy |
+| `qdrant` | Qdrant | `npx -y @qdrant/mcp-server` | Vector search, semantic memory |
+| `chroma` | Chroma | `npx -y @chroma/mcp-server` | Embeddings, vector DB |
+
+### Browser & Testing MCP Servers
+
+| Server ID | Name | Command | Purpose |
+|-----------|------|---------|---------|
+| `playwright` | Playwright | `npx -y @anthropic-ai/playwright-mcp` | E2E testing, scraping |
+| `browser-mcp` | Browser MCP | See browsermcp.io | Use logged-in Chrome |
+| `brave-search` | Brave Search | `npx -y @anthropic-ai/brave-search-mcp` | Privacy-first web search |
+
+### Workflow & Communication MCP Servers
+
+| Server ID | Name | Command | Purpose |
+|-----------|------|---------|---------|
+| `slack` | Slack | `npx -y @anthropic-ai/slack-mcp` | Messages, channel summaries |
+| `linear` | Linear | `npx -y @linear/mcp-server` | Issue tracking |
+| `figma` | Figma | `npx -y @anthropic-ai/figma-mcp` | Design specs, components |
 
 ---
 
@@ -264,3 +324,115 @@ curl https://api.skillsmp.com/v1/skills/postgresql
 # Install skill
 claude skill install skillsmp:postgresql
 ```
+
+---
+
+## Agent Generation
+
+### Agent Templates Location
+
+All agent templates are in: `assets/templates/agents/`
+
+| Template File | Purpose | When to Generate |
+|---------------|---------|------------------|
+| `_base-agent-template.md` | Reference template | Never (reference only) |
+| `database-agent.md` | Database/SQL agent | SQL database detected |
+| `scala-backend-agent.md` | Scala + Spring backend | Scala + Spring detected |
+| `python-backend-agent.md` | Python + FastAPI backend | Python + FastAPI/Flask detected |
+| `frontend-agent.md` | React/Angular/Vue frontend | Frontend framework detected |
+| `databricks-agent.md` | Databricks notebooks | Databricks/Spark detected |
+| `code-reviewer-agent.md` | Code review (global) | Always |
+| `test-generator-agent.md` | Test generation (global) | Always |
+| `doc-writer-agent.md` | Documentation (global) | Always |
+
+### Agent Selection Matrix
+
+| Tech Stack Detected | Agents to Generate |
+|---------------------|-------------------|
+| Any project | code-reviewer, test-generator, doc-writer |
+| PostgreSQL | database-agent (with postgresql skill) |
+| SQL Server | database-agent (with sqlserver skill) |
+| SQLite | database-agent (with sqlite skill) |
+| Scala + Spring Boot | scala-backend-agent |
+| Python + FastAPI | python-backend-agent |
+| Python + Flask | python-backend-agent |
+| React | frontend-agent (with react-tanstack) |
+| Angular | frontend-agent (with angular-modern) |
+| Vue | frontend-agent (with vue3 skill) |
+| Databricks | databricks-agent |
+
+### Handoff Protocol
+
+Agents communicate through handoff files in `.claude/handoff/`:
+
+```
+.claude/
+├── agents/                          # Generated agent definitions
+│   ├── database-agent.md
+│   ├── scala-backend-agent.md
+│   ├── frontend-agent.md
+│   ├── code-reviewer-agent.md
+│   ├── test-generator-agent.md
+│   └── doc-writer-agent.md
+└── handoff/                         # Agent communication files
+    ├── README.md                    # Handoff protocol docs
+    ├── database-agent-output.md     # Database agent writes here
+    ├── backend-agent-output.md      # Backend agents write here
+    └── frontend-agent-output.md     # Frontend agent writes here
+```
+
+### Handoff Flow
+
+```
+Database Agent
+    │
+    ├── Writes: .claude/handoff/database-agent-output.md
+    │           (schema, columns, relationships)
+    │
+    ▼
+Backend Agent (reads database output)
+    │
+    ├── Writes: .claude/handoff/backend-agent-output.md
+    │           (API contract, endpoints, auth)
+    │
+    ▼
+Frontend Agent (reads backend output)
+    │
+    └── Writes: .claude/handoff/frontend-agent-output.md
+                (components, routes, state)
+```
+
+### Agent Generation Process
+
+The `ai-tooling-advisor` agent generates project-specific agents by:
+
+1. **Detecting tech stack** from PRD or codebase analysis
+2. **Selecting templates** based on detection matrix
+3. **Replacing placeholders** with project-specific values
+4. **Writing agents** to `.claude/agents/`
+5. **Copying handoff templates** to `.claude/handoff/`
+6. **Registering** agents in `.ai-workflow.yaml`
+
+### Placeholder Reference
+
+| Placeholder | Source | Example |
+|-------------|--------|---------|
+| `{{DATE}}` | Current date | 2026-01-19 |
+| `{{PROJECT_NAME}}` | PRD or codebase | smile-app |
+| `{{DATABASE_SKILL}}` | Detected DB | postgresql |
+| `{{DATABASE_NAME}}` | Detected DB | PostgreSQL |
+| `{{FRAMEWORK}}` | Detected framework | React |
+| `{{FRAMEWORK_SKILL}}` | Registry lookup | react-tanstack |
+| `{{MIGRATION_PATH}}` | Convention/detected | db/migrations |
+
+### Generated Agent Structure
+
+Each generated agent contains:
+
+1. **Identity** - Role, scope, model
+2. **Skills** - Assigned skills for this agent
+3. **Boundaries** - What it owns vs. doesn't
+4. **Handoff Protocol** - Input requirements, output format
+5. **Conventions** - Project-specific patterns
+6. **Common Tasks** - Code templates
+7. **Anti-Patterns** - What to avoid
