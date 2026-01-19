@@ -3,10 +3,10 @@
   "description": "A collection of utility commands and helpers for common development tasks",
   "version": "1.0.0",
   "author": {
-    "name": "Your Name",
-    "url": "https://github.com/YOUR_USERNAME"
+    "name": "Doru Chiulan",
+    "url": "https://github.com/doruchiulan"
   },
-  "repository": "https://github.com/YOUR_USERNAME/claude-plugins-marketplace",
-  "keywords": ["utilities", "helpers", "productivity"],
+  "repository": "https://github.com/doruchiulan/claude-plugins-marketplace",
+  "keywords": ["utilities", "helpers", "productivity", "documentation", "code-review"],
   "license": "MIT"
 }

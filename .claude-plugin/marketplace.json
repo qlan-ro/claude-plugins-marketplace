@@ -1,0 +1,64 @@
+{
+  "name": "doruchiulan-plugins-marketplace",
+  "owner": {
+    "name": "QLAN Software Solutions",
+    "url": "https://github.com/qlan-ro"
+  },
+  "metadata": {
+    "description": "Personal Claude Code plugin marketplace with productivity and development tools",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "project-studio",
+      "version": "1.0.0",
+      "description": "Full-stack product development orchestration from idea to production-ready code. Provides specialized agents for PRD building, architecture design, UX design, and implementation planning.",
+      "author": {
+        "name": "Doru Chiulan",
+        "url": "https://github.com/qlan-ro"
+      },
+      "homepage": "https://github.com/qlan-ro/claude-plugins-marketplace",
+      "repository": "https://github.com/qlan-ro/claude-plugins-marketplace",
+      "license": "MIT",
+      "keywords": ["project-management", "prd", "architecture", "design", "workflow", "ai-agents", "product-development"],
+      "category": "productivity",
+      "tags": ["projects", "prd", "architecture", "design", "planning", "ralph-loop"],
+      "source": "./plugins/project-studio-plugin",
+      "strict": false
+    },
+    {
+      "name": "work-logger",
+      "version": "2.0.0",
+      "description": "Generates Slack status messages from AI assistant session history (Claude Code, Codex, Junie)",
+      "author": {
+        "name": "Doru Chiulan",
+        "url": "https://github.com/qlan-ro"
+      },
+      "homepage": "https://github.com/qlan-ro/claude-plugins-marketplace",
+      "repository": "https://github.com/qlan-ro/claude-plugins-marketplace",
+      "license": "MIT",
+      "keywords": ["status", "slack", "work-tracking", "ai-sessions", "session-parser"],
+      "category": "productivity",
+      "tags": ["slack", "status", "work-log", "sessions"],
+      "source": "./plugins/work-logger-plugin",
+      "strict": false
+    },
+    {
+      "name": "example-utils",
+      "version": "1.0.0",
+      "description": "Utility commands for code explanation, summarization, documentation generation, and code review",
+      "author": {
+        "name": "Doru Chiulan",
+        "url": "https://github.com/qlan-ro"
+      },
+      "homepage": "https://github.com/qlan-ro/claude-plugins-marketplace",
+      "repository": "https://github.com/qlan-ro/claude-plugins-marketplace",
+      "license": "MIT",
+      "keywords": ["utilities", "documentation", "code-review", "productivity"],
+      "category": "productivity",
+      "tags": ["docs", "explain", "summarize", "review"],
+      "source": "./plugins/example-utils",
+      "strict": false
+    }
+  ]
+}
