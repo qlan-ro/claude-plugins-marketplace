@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Full-stack product development orchestration from idea to production-ready code. Provides specialized agents for PRD building, architecture design, UX design, and implementation planning - all optimized for AI agent execution (Ralph loop).",
   "author": {
-    "name": "Project Studio",
-    "url": "https://github.com/project-studio"
+    "name": "Doru Chiulan",
+    "url": "https://github.com/qlan-ro"
   },
+  "homepage": "https://github.com/qlan-ro/claude-plugins-marketplace",
+  "repository": "https://github.com/qlan-ro/claude-plugins-marketplace",
   "license": "MIT",
   "keywords": [
     "project-management",
@@ -16,41 +18,5 @@
     "ralph-loop",
     "ai-agents",
     "product-development"
-  ],
-  "commands": {
-    "new-project": {
-      "description": "Start a new project from an idea - guides through discovery, architecture, design, and planning phases"
-    },
-    "continue-project": {
-      "description": "Continue an existing project - analyzes codebase and infers documentation before adding new features"
-    },
-    "phase": {
-      "description": "Jump to or check status of a specific phase (e.g., /phase discovery, /phase architecture)"
-    },
-    "gate-check": {
-      "description": "Run phase gate checklist to verify readiness for next phase"
-    }
-  },
-  "agents": {
-    "product-prd-builder": {
-      "description": "Specialized agent for building Product PRDs through guided discovery"
-    },
-    "feature-prd-builder": {
-      "description": "Specialized agent for creating Ralph-ready Feature PRDs with properly sized stories"
-    },
-    "architect": {
-      "description": "Technical architecture agent for technology decisions and system design"
-    },
-    "designer": {
-      "description": "UX/UI design agent for user flows, wireframes, and design systems"
-    },
-    "codebase-analyzer": {
-      "description": "Deep codebase analysis agent for existing projects"
-    }
-  },
-  "skills": {
-    "project-studio": {
-      "description": "Core project orchestration skill - automatically applied when building apps from ideas"
-    }
-  }
+  ]
 }
