@@ -171,3 +171,44 @@ preferences:
   auto_gate_check: false
   verbosity: "normal"  # minimal | normal | verbose
   skip_confirmations: false
+
+# Ralph autonomous execution tracking
+# This section is populated when /start-ralph is run
+ralph:
+  active_session: false     # Is a Ralph session currently active?
+  feature: null             # Current feature being executed
+  branch: null              # Git branch name (ralph/{feature})
+  started_at: null          # When Ralph session started
+
+  # Story progress tracking
+  stories:
+    total: 0                # Total stories in prd.json
+    completed: 0            # Stories with passes: true
+    current: null           # Current story being worked on
+
+  # Last successful iteration (for resume)
+  last_iteration:
+    story_id: null          # Last completed story ID
+    commit_sha: null        # Commit SHA for that story
+    completed_at: null      # When it was completed
+
+  # Interruption tracking
+  interrupted: false        # Was session interrupted mid-story?
+  resume_context: null      # Context to help resume (e.g., "Last completed: US-002, was working on US-003")
+
+# Example populated ralph section:
+# ralph:
+#   active_session: true
+#   feature: "booking-discount"
+#   branch: "ralph/booking-discount"
+#   started_at: "2024-01-15T10:00:00Z"
+#   stories:
+#     total: 5
+#     completed: 2
+#     current: "US-003"
+#   last_iteration:
+#     story_id: "US-002"
+#     commit_sha: "abc1234"
+#     completed_at: "2024-01-15T11:30:00Z"
+#   interrupted: false
+#   resume_context: null

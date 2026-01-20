@@ -40,7 +40,8 @@ Phase 2: AI WORKFLOW      → ai-tooling-advisor agent
 Phase 3: ARCHITECTURE     → architect agent
 Phase 4: DESIGN           → designer agent
 Phase 5: PLANNING         → feature-prd-builder agent
-Phase 6: DEVELOPMENT      → Ralph loop execution
+Phase 6: DEVELOPMENT      → Traditional or Ralph execution
+Phase 6R: RALPH EXECUTION → Autonomous story implementation
 Phase 7: QUALITY          → testing & deployment
 ```
 
@@ -153,7 +154,9 @@ User runs /gate-check → /phase {next} to continue
 | 3→4 | ARCHITECTURE.md exists, tech stack decided, data model defined |
 | 4→5 | DESIGN.md exists, user flows mapped, components specified |
 | 5→6 | Feature PRDs created, stories sized for one context window |
+| 5→6R | Same as 5→6, but user chooses Ralph execution |
 | 6→7 | All stories complete, core tests pass |
+| 6R→7 | All stories have passes:true, /archive-feature run |
 | 7→Done | Tests pass, docs complete, deployment ready |
 
 ### Continue Project Gates
@@ -249,6 +252,83 @@ Manual updates via:
 4. **Audit trail** - Full history of what was done and when
 5. **Resume guidance** - Clear recommendations for continuing
 
+## Ralph Execution Tracking
+
+### Ralph Session State
+
+When a Ralph session is active, additional tracking is added to `state.yaml`:
+
+```yaml
+# Ralph-specific tracking
+ralph:
+  active_session: true
+  feature: "booking-discount"
+  branch: "ralph/booking-discount"
+  started_at: "2024-01-15T10:00:00Z"
+
+  stories:
+    total: 5
+    completed: 2
+    current: "US-003"
+
+  last_iteration:
+    story_id: "US-002"
+    commit_sha: "abc1234"
+    completed_at: "2024-01-15T11:30:00Z"
+
+  interrupted: false
+  resume_context: null
+```
+
+### State Transitions
+
+| Event | State Change |
+|-------|--------------|
+| `/start-ralph` | `ralph.active_session = true`, initialize tracking |
+| Story complete | `ralph.stories.completed += 1`, update `last_iteration` |
+| Interruption | `ralph.interrupted = true`, set `resume_context` |
+| `/archive-feature` | `ralph.active_session = false`, clear tracking |
+
+### Resuming Ralph Sessions
+
+The `/resume` command checks for active Ralph sessions:
+
+1. **Detection**: `ralph.active_session == true` OR `prd.json` exists with incomplete stories
+2. **Context**: Shows completed vs remaining stories, last commit
+3. **Action**: Instructs user to run `./run.sh` to continue
+
+Example resume output:
+```
+## Ralph Session Resume
+
+**Feature:** booking-discount
+**Progress:** 2/5 stories (40%)
+
+### Completed Stories
+✅ US-001: Add discount field
+✅ US-002: Discount validation
+
+### Remaining
+⬜ US-003: Apply discount to total
+⬜ US-004: Discount reports
+⬜ US-005: Admin discount management
+
+### Next Steps
+1. Run `./run.sh` to continue
+2. Ralph resumes from US-003 automatically
+```
+
+### Ralph Commands
+
+| Command | Description |
+|---------|-------------|
+| `/start-ralph [feature]` | Initialize Ralph environment |
+| `/archive-feature [feature]` | Archive completed session |
+| `/phase ralph` | Show Ralph execution status |
+| `/resume` | Resume interrupted session |
+
+See `commands/start-ralph.md` and `commands/archive-feature.md` for details.
+
 ## Slash Commands
 
 ### `/new-project [idea]`
@@ -277,6 +357,7 @@ Manual updates via:
 - `architecture` → Phase 3 with architect
 - `design` → Phase 4 with designer
 - `planning` → Phase 5 with feature-prd-builder
+- `ralph` → Phase 6R Ralph execution status (stories completed, remaining)
 
 ### `/gate-check [phase]`
 1. Detect current phase from artifacts (or use specified phase)
@@ -334,7 +415,8 @@ For detailed phase instructions and templates, see:
   - `03-architecture.md` - Architecture decisions
   - `04-design.md` - UX design process
   - `05-planning.md` - Feature PRD creation
-  - `06-development.md` - Ralph loop execution
+  - `06-development.md` - Traditional development approach
+  - `06-ralph-execution.md` - Ralph autonomous execution
   - `07-quality.md` - Testing & deployment
 
 - `references/continue-project/` - Continue workflow specifics
