@@ -26,6 +26,23 @@ You are initiating a continue-project workflow for an existing codebase. This wo
 
 $ARGUMENTS
 
+### Initialize Orchestration State
+
+Before beginning, initialize the orchestration state file for session continuity:
+
+```bash
+# Create .project-studio directory and state file
+./hooks/update-orchestration-state.sh session-start
+./hooks/update-orchestration-state.sh workflow-type continue-project
+./hooks/update-orchestration-state.sh phase-start codebase-analysis
+```
+
+This enables:
+- Session history tracking
+- Resume capability via `/resume`
+- Pending decision tracking
+- Artifact change logging
+
 If the user provided context above (project path, new features), acknowledge it.
 Otherwise, ask:
 1. "What is the path to your existing project?"

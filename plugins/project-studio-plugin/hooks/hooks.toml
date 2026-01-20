@@ -107,3 +107,49 @@ command = "npx prettier --write"
 event = "Stop"
 tools = []
 command = "bash hooks/suggest-gate-check.sh"
+
+# =============================================================================
+# ORCHESTRATION STATE HOOKS - Session & workflow tracking
+# =============================================================================
+
+# Update state when PRODUCT_PRD.md is created (Phase 1 complete)
+[[hooks]]
+event = "PostToolUse"
+tools = ["Write"]
+matcher = { type = "file_path", pattern = "**/PRODUCT_PRD.md" }
+command = "bash hooks/update-orchestration-state.sh phase-complete discovery"
+
+# Update state when CODEBASE_ANALYSIS.md is created (Phase C1 complete)
+[[hooks]]
+event = "PostToolUse"
+tools = ["Write"]
+matcher = { type = "file_path", pattern = "**/CODEBASE_ANALYSIS.md" }
+command = "bash hooks/update-orchestration-state.sh phase-complete codebase-analysis"
+
+# Update state when .ai-workflow.yaml is created (Phase 2 or C5 complete)
+[[hooks]]
+event = "PostToolUse"
+tools = ["Write"]
+matcher = { type = "file_path", pattern = "**/.ai-workflow.yaml" }
+command = "bash hooks/update-orchestration-state.sh phase-complete ai-workflow"
+
+# Update state when ARCHITECTURE.md is created (Phase 3 complete)
+[[hooks]]
+event = "PostToolUse"
+tools = ["Write"]
+matcher = { type = "file_path", pattern = "**/ARCHITECTURE.md" }
+command = "bash hooks/update-orchestration-state.sh phase-complete architecture"
+
+# Update state when DESIGN.md is created (Phase 4 complete)
+[[hooks]]
+event = "PostToolUse"
+tools = ["Write"]
+matcher = { type = "file_path", pattern = "**/DESIGN.md" }
+command = "bash hooks/update-orchestration-state.sh phase-complete design"
+
+# Track artifact modifications for session history
+[[hooks]]
+event = "PostToolUse"
+tools = ["Write", "Edit"]
+matcher = { type = "file_path", pattern = "**/docs/**/*.md" }
+command = "bash hooks/track-artifact-modification.sh"

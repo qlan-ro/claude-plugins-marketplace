@@ -29,6 +29,23 @@ You are initiating a new project workflow. Guide the user through a structured 7
 
 $ARGUMENTS
 
+### Initialize Orchestration State
+
+Before beginning, initialize the orchestration state file for session continuity:
+
+```bash
+# Create .project-studio directory and state file
+./hooks/update-orchestration-state.sh session-start
+./hooks/update-orchestration-state.sh workflow-type new-project
+./hooks/update-orchestration-state.sh phase-start discovery
+```
+
+This enables:
+- Session history tracking
+- Resume capability via `/resume`
+- Pending decision tracking
+- Artifact change logging
+
 If the user provided an idea above, acknowledge it and begin Phase 1 (Discovery).
 If no idea was provided, ask: "What would you like to build?"
 

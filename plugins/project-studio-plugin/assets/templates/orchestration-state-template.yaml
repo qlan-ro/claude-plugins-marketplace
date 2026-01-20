@@ -1,0 +1,173 @@
+# Orchestration State
+# Auto-generated and maintained by Project Studio
+# This file tracks workflow state for session continuity
+#
+# Location: {project}/.project-studio/state.yaml
+
+# Schema version for migration support
+schema_version: 1
+
+# Workflow identification
+workflow:
+  type: "new-project"  # new-project | continue-project | add-feature
+  started_at: "2024-01-15T10:30:00Z"
+  started_by: "user"  # Could track if started via command or auto-detected
+
+# Current phase tracking
+phase:
+  current: "discovery"  # discovery | ai-workflow | architecture | design | planning | development | quality
+  current_number: 1     # 1-7 for new-project, C1-C5 then 5-7 for continue
+  status: "in_progress" # not_started | in_progress | blocked | completed
+
+  # For continue-project workflow, track the continue-specific phases
+  continue_phase: null  # C1 | C1.5 | C2 | C3 | C4 | C5 | null
+
+  # Add-feature specific tracking
+  add_feature_step: null  # 1 | 2 | 3 | 4 | 5 | 6 | null
+
+# Phase completion tracking (explicit, not just file existence)
+phases_completed:
+  discovery: false
+  ai_workflow: false
+  architecture: false
+  design: false
+  planning: false
+  development: false
+  quality: false
+  # Continue-project specific
+  codebase_analysis: false
+  skill_discovery: false
+  infer_prd: false
+  infer_architecture: false
+  infer_design: false
+  ai_tooling_audit: false
+
+# Gate check history
+gate_checks:
+  - phase: "discovery"
+    checked_at: "2024-01-15T11:00:00Z"
+    passed: true
+    issues: []
+  # - phase: "ai-workflow"
+  #   checked_at: "2024-01-15T12:00:00Z"
+  #   passed: false
+  #   issues:
+  #     - "Missing MCP server configuration for database"
+  #     - "No test workflow defined"
+
+# Session history for continuity
+sessions:
+  - session_id: "session-001"
+    started_at: "2024-01-15T10:30:00Z"
+    ended_at: "2024-01-15T12:00:00Z"
+    phases_worked: ["discovery"]
+    artifacts_created:
+      - "docs/PRODUCT_PRD.md"
+    summary: "Completed discovery phase. Created Product PRD with 5 features in backlog."
+  # Each session appends to this log
+
+# Current session (active)
+current_session:
+  session_id: "session-002"
+  started_at: "2024-01-16T09:00:00Z"
+  phases_worked: ["ai-workflow"]
+  artifacts_modified: []
+  pending_work: "Configuring MCP servers for database access"
+
+# Agent execution log
+agent_runs:
+  - agent: "product-prd-builder"
+    mode: "create"
+    phase: "discovery"
+    started_at: "2024-01-15T10:35:00Z"
+    completed_at: "2024-01-15T11:45:00Z"
+    output_file: "docs/PRODUCT_PRD.md"
+    status: "completed"
+  # Tracks which agents ran and when
+
+# Feature tracking (project-level overview)
+features:
+  total: 5
+  in_planning: 2
+  in_development: 1
+  completed: 0
+
+  items:
+    - id: "01-user-authentication"
+      status: "in_development"  # planning | in_development | completed
+      stories_total: 5
+      stories_completed: 2
+      branch: "feature/user-authentication"
+      pr_url: null
+    - id: "02-booking-system"
+      status: "planning"
+      stories_total: null  # Not yet planned
+      stories_completed: 0
+      branch: null
+      pr_url: null
+
+# Pending decisions/blockers (for session handoff)
+pending:
+  decisions:
+    - id: "tech-stack-db"
+      question: "Which database to use: PostgreSQL vs MongoDB?"
+      context: "Product involves complex relational data but also needs flexible schema for user preferences"
+      options:
+        - "PostgreSQL with JSONB columns"
+        - "MongoDB"
+        - "PostgreSQL + Redis for caching"
+      phase: "architecture"
+      created_at: "2024-01-15T14:00:00Z"
+
+  blockers:
+    - id: "missing-api-spec"
+      description: "Need external API documentation from third-party payment provider"
+      phase: "architecture"
+      blocking_agent: "architect"
+      created_at: "2024-01-15T14:30:00Z"
+
+  questions:
+    - id: "design-library"
+      question: "Should we use Tailwind CSS or a component library like shadcn/ui?"
+      phase: "design"
+      created_at: "2024-01-15T15:00:00Z"
+
+# Resume context (what to tell Claude when starting a new session)
+resume_context:
+  last_action: "Completed discovery phase and started AI workflow configuration"
+  next_recommended: "Continue configuring .ai-workflow.yaml, specifically MCP servers section"
+  key_decisions_made:
+    - "Using TypeScript with React for frontend"
+    - "PostgreSQL for database"
+    - "REST API (not GraphQL)"
+  open_questions:
+    - "Which component library to use?"
+    - "Should we implement real-time features with WebSockets?"
+
+# Artifact checksums (to detect external changes)
+artifacts:
+  "docs/PRODUCT_PRD.md":
+    exists: true
+    last_modified: "2024-01-15T11:45:00Z"
+    checksum: "sha256:abc123..."
+    created_by_agent: "product-prd-builder"
+    created_in_phase: "discovery"
+  ".ai-workflow.yaml":
+    exists: false
+    last_modified: null
+    checksum: null
+  "docs/ARCHITECTURE.md":
+    exists: false
+    last_modified: null
+    checksum: null
+  "docs/DESIGN.md":
+    exists: false
+    last_modified: null
+    checksum: null
+
+# User preferences captured during workflow
+preferences:
+  auto_commit: true
+  auto_gate_check: false
+  verbosity: "normal"  # minimal | normal | verbose
+  skip_confirmations: false

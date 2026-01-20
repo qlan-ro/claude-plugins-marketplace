@@ -171,6 +171,8 @@ User runs /gate-check → /phase {next} to continue
 
 ```
 {project}/
+├── .project-studio/           # Orchestration state (NEW)
+│   └── state.yaml             # Session continuity, phase tracking
 ├── .ai-workflow.yaml          # Phase 2
 ├── docs/
 │   ├── CODEBASE_ANALYSIS.md   # Continue-project only
@@ -185,6 +187,67 @@ User runs /gate-check → /phase {next} to continue
 ├── src/                       # Phase 6
 └── tests/                     # Phase 7
 ```
+
+## State Management
+
+### Session Continuity
+
+The `.project-studio/state.yaml` file enables session continuity:
+
+```yaml
+# Key sections:
+workflow:
+  type: "new-project"    # Workflow identification
+  started_at: "..."
+
+phase:
+  current: "architecture"
+  status: "in_progress"
+
+sessions:              # Session history
+  - session_id: "..."
+    summary: "..."
+
+pending:               # Handoff context
+  decisions: [...]
+  blockers: [...]
+
+resume_context:        # Next session guidance
+  last_action: "..."
+  next_recommended: "..."
+```
+
+### Resuming Work
+
+When starting a new Claude Code session:
+
+1. Run `/resume` to see current state and recommendations
+2. State file shows:
+   - Current phase and status
+   - Pending decisions/blockers
+   - Session history summary
+   - Recommended next steps
+3. Continue from where you left off
+
+### State Updates
+
+State is automatically updated by hooks when:
+- Phase artifacts are created (PRODUCT_PRD.md, ARCHITECTURE.md, etc.)
+- Artifacts are modified
+- Gate checks are run
+
+Manual updates via:
+```bash
+./hooks/update-orchestration-state.sh <action> <args>
+```
+
+### Benefits
+
+1. **Session continuity** - Context preserved across Claude Code sessions
+2. **Explicit tracking** - No ambiguity about current phase status
+3. **Decision tracking** - Pending decisions don't get lost
+4. **Audit trail** - Full history of what was done and when
+5. **Resume guidance** - Clear recommendations for continuing
 
 ## Slash Commands
 
