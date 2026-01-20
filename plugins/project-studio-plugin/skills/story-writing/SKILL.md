@@ -18,6 +18,16 @@ Create AI-executable user stories sized for single context windows.
 
 **Each story must complete in ONE context window (~10 min AI work).**
 
+> **Automated Validation:** See [Story Sizing Checklist](../../references/checklists/story-sizing.md) for validation rules that generate warnings when stories are too large.
+
+### Validation Thresholds
+
+| Rule | Limit | Warning If Exceeded |
+|------|-------|---------------------|
+| Description length | 3 sentences | Suggest splitting |
+| Acceptance criteria | 5 items | Suggest splitting |
+| Files to modify | 5 files | Suggest splitting |
+
 ### Size Guidelines
 
 | Describable in... | Assessment |
