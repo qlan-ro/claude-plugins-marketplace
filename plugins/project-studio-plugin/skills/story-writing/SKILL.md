@@ -62,7 +62,7 @@ Create AI-executable user stories sized for single context windows.
 
 ## Story Ordering
 
-**Always: Schema → Backend → Frontend**
+**Always: Schema → Backend → Frontend (ALL THREE LAYERS)**
 
 ```markdown
 ### US-001: Add user schema
@@ -76,6 +76,56 @@ Why this order:
 1. Schema defines the data structure
 2. Backend provides the API
 3. Frontend consumes the API
+
+## Critical Rule: Complete Vertical Slices
+
+**Every Feature PRD MUST include stories for ALL layers the feature touches.**
+
+If a feature has user-facing functionality, the Feature PRD MUST include:
+- Schema stories (if data model changes)
+- Backend/API stories
+- **Frontend/UI stories** ← DO NOT OMIT
+
+### Anti-Pattern: Backend-Only Feature PRDs (NEVER DO THIS)
+
+```markdown
+# WRONG - Missing frontend stories
+## Feature: User Authentication
+
+US-001: Add User schema
+US-002: Create login endpoint
+US-003: Create register endpoint
+US-004: Add JWT middleware
+# ❌ WHERE ARE THE LOGIN/REGISTER FORMS?
+# ❌ WHERE IS THE AUTH STATE PROVIDER?
+# ❌ WHERE IS THE PROTECTED ROUTE WRAPPER?
+```
+
+### Correct Pattern: Full-Stack Feature PRD
+
+```markdown
+# RIGHT - Complete vertical slice
+## Feature: User Authentication
+
+# Schema
+US-001: Add User schema with auth fields
+US-002: Add Session schema for refresh tokens
+
+# Backend
+US-003: Create register endpoint
+US-004: Create login endpoint
+US-005: Create logout endpoint
+US-006: Add JWT auth middleware
+
+# Frontend
+US-007: Build RegisterForm component
+US-008: Build LoginForm component
+US-009: Add AuthContext provider
+US-010: Build ProtectedRoute wrapper
+US-011: Add logout button to header
+```
+
+**If the Product PRD describes a feature with UI, the Feature PRD MUST include UI stories.**
 
 ## Acceptance Criteria Rules
 
@@ -225,10 +275,13 @@ US-006: Assemble Dashboard page
 
 ## Checklist Before Done
 
+- [ ] **Feature is a complete vertical slice** (schema + backend + frontend if user-facing)
 - [ ] Every story fits in one context window
-- [ ] Stories ordered by dependency
+- [ ] Stories ordered by dependency (Schema → Backend → Frontend)
 - [ ] All criteria are verifiable
 - [ ] Every story has "Typecheck passes"
 - [ ] UI stories have "Verify in browser"
 - [ ] progress.txt initialized
 - [ ] Non-goals stated
+
+**Final check:** If this feature has UI in the design docs, does the Feature PRD include frontend stories? If not, ADD THEM.

@@ -55,31 +55,60 @@ Clarify:
 
 ### Step 3: Feature Backlog Creation
 
-Organize by dependency order:
+Organize features as **vertical slices** (end-to-end user capabilities), not architectural layers.
+
+**CRITICAL: Each feature = complete user capability (schema + backend + frontend)**
 
 ```markdown
 ### Foundation (Build First)
-- [ ] User authentication
-- [ ] Database schema
-- [ ] Core API structure
+- [ ] User authentication (signup, login, logout - full stack)
+- [ ] Core data model & API foundation
 
 ### Core MVP (Depends on Foundation)
-- [ ] Primary user workflow
-- [ ] Essential CRUD operations
-- [ ] Basic UI components
+- [ ] Dashboard (API + UI)
+- [ ] User settings (API + UI)
+- [ ] Primary workflow (API + UI)
 
 ### Enhanced MVP (Depends on Core)
-- [ ] Advanced features
-- [ ] Integrations
-- [ ] Analytics
+- [ ] Advanced feature A (full stack)
+- [ ] Integration with external service
 
 ### Post-MVP (Future)
 - [ ] Nice-to-have features
 - [ ] Optimization
-- [ ] Scale features
 ```
 
-**Key rule:** Features must be ordered so dependencies come first.
+**Key rules:**
+1. **Vertical slices, not horizontal layers** - Each feature delivers a complete user-facing capability
+2. **NO backend-only features** unless purely infrastructure (e.g., "database migrations")
+3. **Features must be ordered so dependencies come first**
+
+### Anti-Pattern: Horizontal Layering (AVOID)
+
+```markdown
+# WRONG - splits by technical layer
+### Foundation
+- [ ] Database schema        ← No user value alone
+- [ ] Authentication API     ← No user value alone
+- [ ] Core API structure     ← No user value alone
+
+### Core MVP
+- [ ] Dashboard UI           ← Disconnected from backend
+- [ ] Settings UI            ← Disconnected from backend
+```
+
+### Correct Pattern: Vertical Slices
+
+```markdown
+# RIGHT - each feature is end-to-end
+### Foundation
+- [ ] Authentication (schema + API + login/register UI)
+- [ ] Project setup (schema + API + creation wizard UI)
+
+### Core MVP
+- [ ] Dashboard (queries + API + dashboard page)
+- [ ] Settings (schema + API + settings page)
+```
 
 ## Output Template
 
@@ -108,16 +137,19 @@ Create `docs/PRODUCT_PRD.md`:
 
 ## Feature Backlog (Dependency Ordered)
 
+<!-- IMPORTANT: Each feature is a VERTICAL SLICE (schema + API + UI) -->
+<!-- NOT horizontal layers (all schemas, then all APIs, then all UIs) -->
+
 ### Foundation (Build First)
-1. **{Feature}** - {Brief description}
-2. **{Feature}** - {Brief description}
+1. **{Feature}** - {Brief description} (full stack: schema + API + UI)
+2. **{Feature}** - {Brief description} (full stack)
 
 ### Core MVP
-3. **{Feature}** - {Brief description}
-4. **{Feature}** - {Brief description}
+3. **{Feature}** - {Brief description} (full stack)
+4. **{Feature}** - {Brief description} (full stack)
 
 ### Enhanced MVP
-5. **{Feature}** - {Brief description}
+5. **{Feature}** - {Brief description} (full stack)
 
 ### Post-MVP
 6. **{Feature}** - {Brief description}
@@ -143,17 +175,19 @@ When documenting an EXISTING codebase, add status markers:
 ## Feature Backlog
 
 ### Foundation
-1. **User authentication** ✅ Done
-2. **Database schema** ✅ Done
+1. **User authentication** ✅ Done (schema + API + login/register pages)
+2. **Project management** ✅ Done (schema + CRUD API + project list/detail UI)
 
 ### Core MVP
-3. **Dashboard** 🟡 Partial - missing charts
-4. **User settings** 📋 To Build
+3. **Dashboard** 🟡 Partial - API done, UI missing charts
+4. **User settings** 📋 To Build (schema + API + settings page)
 
 ### New Features (Requested)
-5. **Dark mode** 📋 To Build
-6. **Export to PDF** 📋 To Build
+5. **Dark mode** 📋 To Build (theme provider + toggle UI)
+6. **Export to PDF** 📋 To Build (export API + download button)
 ```
+
+Note: Each feature shows its full-stack components (schema/API/UI) to make scope clear.
 
 Status markers:
 - ✅ **Done** - Fully implemented
