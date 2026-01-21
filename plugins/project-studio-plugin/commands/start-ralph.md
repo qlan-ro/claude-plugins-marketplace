@@ -41,12 +41,12 @@ Initialize the Ralph autonomous agent environment for a feature.
 ```
 project-root/
 ├── .ralph/
+│   ├── run.sh             # Runner script (execute from here)
 │   ├── INSTRUCTIONS.md    # Ralph execution rules
 │   ├── CLAUDE.md          # Combined instructions (created by run.sh)
 │   ├── prd.json           # User stories (converted from Feature PRD)
 │   └── progress.txt       # Progress log
-├── CLAUDE.md              # User's project instructions (untouched)
-└── run.sh                 # Wrapper script
+└── CLAUDE.md              # User's project instructions (untouched)
 ```
 
 ## Prerequisites
@@ -90,11 +90,11 @@ The template contains Ralph's execution rules:
 - Signal completion with `<promise>COMPLETE</promise>`
 
 ### Step 4: Generate run.sh
-Extract the shell script from `assets/templates/ralph-run-sh.md` and save to `run.sh`:
+Extract the shell script from `assets/templates/ralph-run-sh.md` and save to `.ralph/run.sh`:
 ```bash
 # Extract content between ```bash and ``` markers
-# Save to run.sh at project root
-chmod +x run.sh
+# Save to .ralph/run.sh
+chmod +x .ralph/run.sh
 ```
 
 ### Step 5: Create Git Branch
@@ -224,13 +224,13 @@ echo "---" >> .ralph/progress.txt
 **Branch:** ralph/booking-discount
 
 ### Files Created
+- `.ralph/run.sh` - Runner script (executable)
 - `.ralph/INSTRUCTIONS.md` - Ralph execution rules
 - `.ralph/prd.json` - 5 user stories (all passes: false)
 - `.ralph/progress.txt` - Progress log initialized
-- `run.sh` - Wrapper script (executable)
 
 ### Next Steps
-1. Execute `./run.sh` to start Ralph autonomous execution
+1. Execute `./.ralph/run.sh` to start Ralph autonomous execution
 2. Monitor progress in `.ralph/progress.txt`
 3. When complete, run `/project-studio:archive-feature` to clean up
 ```
@@ -285,7 +285,8 @@ Manual review of prd.json may be needed.
 ## Notes
 
 - This command sets up the environment AND converts the PRD; it does NOT start Ralph execution
-- The `run.sh` script combines `.ralph/INSTRUCTIONS.md` with project `CLAUDE.md` into `.ralph/CLAUDE.md`
+- The `.ralph/run.sh` script combines `.ralph/INSTRUCTIONS.md` with project `CLAUDE.md` into `.ralph/CLAUDE.md`
+- Run Ralph with: `./.ralph/run.sh` (loop mode) or `./.ralph/run.sh --single` (one story)
 - All Ralph files (`prd.json`, `progress.txt`, `CLAUDE.md`) are kept in `.ralph/` to avoid conflicts with user's project files
 - Progress is tracked in `.ralph/progress.txt`
 - Feature PRD must exist at `.project-studio/features/{feature}/PRD.md` before running this command

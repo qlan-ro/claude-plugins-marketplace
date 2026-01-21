@@ -6,12 +6,12 @@
   },
   "metadata": {
     "description": "Personal Claude Code plugin marketplace with productivity and development tools",
-    "version": "1.0.7"
+    "version": "1.0.8"
   },
   "plugins": [
     {
       "name": "project-studio",
-      "version": "1.0.7",
+      "version": "1.0.8",
       "description": "Full-stack product development orchestration from idea to production-ready code. Provides specialized agents for PRD building, architecture design, UX design, and implementation planning.",
       "author": {
         "name": "Doru Chiulan",
