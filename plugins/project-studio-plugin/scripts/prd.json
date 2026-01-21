@@ -38,10 +38,10 @@
     },
     {
       "id": "US-003",
-      "title": "Create /start-ralph command",
-      "description": "As a developer, I want a /start-ralph command that sets up the Ralph environment so I can begin autonomous execution.",
+      "title": "Create /project-studio:start-ralph command",
+      "description": "As a developer, I want a /project-studio:start-ralph command that sets up the Ralph environment so I can begin autonomous execution.",
       "acceptanceCriteria": [
-        "Create commands/start-ralph.md skill file",
+        "Create commands/project-studio:start-ralph.md skill file",
         "Command creates .ralph/ directory if not exists",
         "Command copies INSTRUCTIONS.md template to .ralph/INSTRUCTIONS.md",
         "Command generates .ralph/run.sh from template",
@@ -55,8 +55,8 @@
     },
     {
       "id": "US-004",
-      "title": "Add PRD to prd.json conversion to /start-ralph",
-      "description": "As a developer, I want /start-ralph to convert my Feature PRD to prd.json so vanilla ralph.sh can execute it.",
+      "title": "Add PRD to prd.json conversion to /project-studio:start-ralph",
+      "description": "As a developer, I want /project-studio:start-ralph to convert my Feature PRD to prd.json so vanilla ralph.sh can execute it.",
       "acceptanceCriteria": [
         "Command reads PRD.md from .project-studio/features/{feature}/PRD.md",
         "Command parses user stories into JSON with: id, title, description, acceptance_criteria, passes",
@@ -88,10 +88,10 @@
     },
     {
       "id": "US-006",
-      "title": "Create /archive-feature command",
-      "description": "As a developer, I want /archive-feature command so completed features are archived and I can start the next one.",
+      "title": "Create /project-studio:archive-feature command",
+      "description": "As a developer, I want /project-studio:archive-feature command so completed features are archived and I can start the next one.",
       "acceptanceCriteria": [
-        "Create commands/archive-feature.md skill file",
+        "Create commands/project-studio:archive-feature.md skill file",
         "Command moves prd.json to .project-studio/archive/{date}-{feature}/prd.json",
         "Command moves progress.txt to archive directory",
         "Command cleans up .ralph/ directory (keeps INSTRUCTIONS.md template)",
@@ -110,7 +110,7 @@
       "acceptanceCriteria": [
         "Create references/phases/06-ralph-execution.md phase documentation",
         "Update skills/orchestration/SKILL.md to include Ralph Execution phase",
-        "Phase includes: /start-ralph, monitor progress, /archive-feature",
+        "Phase includes: /project-studio:start-ralph, monitor progress, /project-studio:archive-feature",
         "State tracking for active Ralph session in state.yaml",
         "Can resume interrupted Ralph sessions",
         "Typecheck passes"

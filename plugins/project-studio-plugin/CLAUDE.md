@@ -21,26 +21,26 @@ Full-stack product development orchestration from idea to production-ready code.
 claude plugins:install ./plugins/project-studio-plugin
 
 # Start a new project
-claude /new-project "Your project idea"
+claude /project-studio:new-project "Your project idea"
 
 # Or continue an existing project
-claude /continue-project /path/to/project
+claude /project-studio:continue-project /path/to/project
 ```
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `/new-project [idea]` | Start 7-phase greenfield workflow |
-| `/continue-project [path]` | Analyze codebase and infer documentation |
-| `/add-feature [description]` | Add features to established project |
-| `/phase [name\|status]` | Jump to phase or check status |
-| `/gate-check [phase]` | Verify readiness before advancing |
-| `/start-ralph [feature]` | Initialize Ralph execution environment |
-| `/archive-feature [feature]` | Archive completed feature artifacts |
-| `/commit [message]` | Commit with conventional message |
-| `/pr [--draft]` | Create pull request for feature branch |
-| `/workflow-status [--verbose]` | Show state and pending items |
+| `/project-studio:new-project [idea]` | Start 7-phase greenfield workflow |
+| `/project-studio:continue-project [path]` | Analyze codebase and infer documentation |
+| `/project-studio:add-feature [description]` | Add features to established project |
+| `/project-studio:phase [name\|status]` | Jump to phase or check status |
+| `/project-studio:gate-check [phase]` | Verify readiness before advancing |
+| `/project-studio:start-ralph [feature]` | Initialize Ralph execution environment |
+| `/project-studio:archive-feature [feature]` | Archive completed feature artifacts |
+| `/project-studio:commit [message]` | Commit with conventional message |
+| `/project-studio:pr [--draft]` | Create pull request for feature branch |
+| `/project-studio:workflow-status [--verbose]` | Show state and pending items |
 
 ## Environment Variables
 
@@ -116,9 +116,9 @@ ls agents/*.md commands/*.md skills/*/
 
 # Test workflow in Claude Code
 claude
-> /new-project "Test project"
-> /phase status
-> /gate-check
+> /project-studio:new-project "Test project"
+> /project-studio:phase status
+> /project-studio:gate-check
 ```
 
 ## Deployment

@@ -284,7 +284,7 @@ Before finalizing, ensure:
 
 ## Add-Feature Mode (Amendment)
 
-When adding features via `/add-feature` that require design changes:
+When adding features via `/project-studio:add-feature` that require design changes:
 
 ### Rules for Amendment Mode
 

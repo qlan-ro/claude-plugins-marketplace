@@ -1,12 +1,12 @@
 ---
-name: archive-feature
+name: project-studio:archive-feature
 description: |
   Archive a completed feature after Ralph execution finishes.
-  Usage: /archive-feature [feature-name]
+  Usage: /project-studio:archive-feature [feature-name]
   Moves prd.json and progress.txt to archive, cleans up .ralph/ directory.
 ---
 
-# /archive-feature Command
+# /project-studio:archive-feature Command
 
 Archive a completed feature and clean up Ralph execution artifacts.
 
@@ -14,10 +14,10 @@ Archive a completed feature and clean up Ralph execution artifacts.
 
 ```bash
 # Archive a specific feature
-/archive-feature booking-discount
+/project-studio:archive-feature booking-discount
 
 # Auto-detect feature from .project-studio state or prd.json
-/archive-feature
+/project-studio:archive-feature
 ```
 
 ## Process
@@ -34,13 +34,13 @@ Archive a completed feature and clean up Ralph execution artifacts.
 
 ## Prerequisites
 
-Before running `/archive-feature`:
+Before running `/project-studio:archive-feature`:
 - All user stories in `prd.json` must have `passes: true`
 - The feature should be fully implemented and committed
 
 ## Implementation Steps
 
-When the user runs `/archive-feature [feature-name]`:
+When the user runs `/project-studio:archive-feature [feature-name]`:
 
 ### Step 1: Determine Feature Name
 
@@ -126,7 +126,7 @@ rm -f .ralph/CLAUDE.md
 
 **Why keep INSTRUCTIONS.md?**
 - The INSTRUCTIONS.md template is copied from the plugin once
-- Future `/start-ralph` runs can skip the copy if it already exists
+- Future `/project-studio:start-ralph` runs can skip the copy if it already exists
 - Modifications to instructions are preserved between features
 
 ### Step 6: Update state.yaml
@@ -187,7 +187,7 @@ Generate a summary of the completed feature:
 
 1. Create pull request: `git push -u origin ralph/{feature_name}`
 2. Merge to main branch
-3. Start next feature with `/add-feature`
+3. Start next feature with `/project-studio:add-feature`
 ```
 
 ## Output Example
@@ -218,7 +218,7 @@ Generate a summary of the completed feature:
 
 1. Create pull request: `git push -u origin ralph/booking-discount`
 2. Merge to main branch
-3. Start next feature with `/add-feature`
+3. Start next feature with `/project-studio:add-feature`
 ```
 
 ## Error Handling
@@ -232,7 +232,7 @@ No feature name provided and could not auto-detect from:
 - prd.json (file not found)
 - .project-studio/state.yaml (file not found or no current feature)
 
-Usage: /archive-feature <feature-name>
+Usage: /project-studio:archive-feature <feature-name>
 ```
 
 ### prd.json Not Found
@@ -243,7 +243,7 @@ Error: No prd.json found
 Expected file at project root: ./prd.json
 
 This command archives Ralph execution artifacts. Please ensure:
-1. Ralph execution has been set up with /start-ralph
+1. Ralph execution has been set up with /project-studio:start-ralph
 2. The prd.json file exists at project root
 ```
 
@@ -277,13 +277,13 @@ Proceeding with unique suffix...
 
 ## Integration with Other Commands
 
-- **Before**: Use `/start-ralph` to set up Ralph environment and begin execution
-- **After**: Use `/add-feature` to start the next feature
-- **Related**: Use `/pr` to create a pull request for the completed feature branch
+- **Before**: Use `/project-studio:start-ralph` to set up Ralph environment and begin execution
+- **After**: Use `/project-studio:add-feature` to start the next feature
+- **Related**: Use `/project-studio:pr` to create a pull request for the completed feature branch
 
 ## Notes
 
-- This command does NOT create a pull request (use `/pr` for that)
+- This command does NOT create a pull request (use `/project-studio:pr` for that)
 - This command does NOT merge branches
 - The archived files are kept for historical reference
 - The `.ralph/INSTRUCTIONS.md` template is preserved for future features

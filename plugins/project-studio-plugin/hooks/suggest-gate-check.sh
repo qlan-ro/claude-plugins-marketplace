@@ -37,7 +37,7 @@ fi
 # Output suggestion if we detected a phase
 if [ -n "$CURRENT_PHASE" ] && [ -n "$NEXT_PHASE" ]; then
     echo ""
-    echo "💡 Tip: Run /gate-check to verify readiness for $NEXT_PHASE phase"
+    echo "💡 Tip: Run /project-studio:gate-check to verify readiness for $NEXT_PHASE phase"
 fi
 
 exit 0

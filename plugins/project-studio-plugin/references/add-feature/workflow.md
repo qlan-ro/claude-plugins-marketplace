@@ -4,13 +4,13 @@ Streamlined process for adding new features to an established project.
 
 ## When to Use
 
-Use `/add-feature` when:
+Use `/project-studio:add-feature` when:
 - Project has completed initial workflow (new-project or continue-project)
 - Foundation docs exist (PRD, Architecture, Design)
 - You want to add one or more new features
 - You don't need to re-analyze the entire codebase
 
-Use `/continue-project` instead when:
+Use `/project-studio:continue-project` instead when:
 - Foundation docs are missing
 - You need to re-analyze architecture or design
 - Significant time has passed and codebase has changed substantially
@@ -38,7 +38,7 @@ ls docs/DESIGN.md
 ls .ai-workflow.yaml
 ```
 
-**If missing:** Redirect to `/continue-project`
+**If missing:** Redirect to `/project-studio:continue-project`
 
 **If present:** Continue to Step 2
 
@@ -183,7 +183,7 @@ New Feature: "{feature name}"
 ## Example: Adding Dark Mode
 
 ```
-/add-feature "Dark mode toggle with system preference detection"
+/project-studio:add-feature "Dark mode toggle with system preference detection"
 ```
 
 **Step 1: Foundation Check**

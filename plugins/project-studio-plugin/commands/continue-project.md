@@ -1,5 +1,5 @@
 ---
-name: continue-project
+name: project-studio:continue-project
 description: Continue an existing project - analyzes codebase, infers documentation, then adds new features using the standard workflow
 ---
 
@@ -39,7 +39,7 @@ Before beginning, initialize the orchestration state file for session continuity
 
 This enables:
 - Session history tracking
-- Resume capability via `/workflow-status`
+- Resume capability via `/project-studio:workflow-status`
 - Pending decision tracking
 - Artifact change logging
 
@@ -174,6 +174,6 @@ Testing, documentation, deployment prep
 Only advance when:
 - Analysis is accurate (user confirms)
 - Artifacts are complete
-- Run `/gate-check` to verify readiness
+- Run `/project-studio:gate-check` to verify readiness
 
 Begin with Phase 1 (Codebase Analysis) now.

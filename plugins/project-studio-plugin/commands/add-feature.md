@@ -1,5 +1,5 @@
 ---
-name: add-feature
+name: project-studio:add-feature
 description: Add new features to an established project with foundation docs already in place
 ---
 
@@ -14,9 +14,9 @@ $ARGUMENTS
 ## Usage
 
 ```bash
-/add-feature "Dark mode toggle"
-/add-feature "PDF export and email notifications"
-/add-feature   # Interactive mode - will ask what to add
+/project-studio:add-feature "Dark mode toggle"
+/project-studio:add-feature "PDF export and email notifications"
+/project-studio:add-feature   # Interactive mode - will ask what to add
 ```
 
 ## Prerequisites
@@ -27,7 +27,7 @@ This command requires existing foundation documents:
 - `docs/DESIGN.md` - Design system
 - `.ai-workflow.yaml` - AI tooling config (optional but recommended)
 
-If these don't exist, use `/continue-project` instead.
+If these don't exist, use `/project-studio:continue-project` instead.
 
 ## Workflow Overview
 
@@ -85,7 +85,7 @@ If missing critical docs:
 - docs/PRODUCT_PRD.md - NOT FOUND
 - docs/ARCHITECTURE.md - NOT FOUND
 
-Use /continue-project to establish foundation first.
+Use /project-studio:continue-project to establish foundation first.
 ```
 
 ### Step 2: Update PRD
@@ -203,7 +203,7 @@ Test new features:
 ## Example Session
 
 ```
-User: /add-feature "Dark mode toggle"
+User: /project-studio:add-feature "Dark mode toggle"
 
 Claude: 📋 Add Feature: Dark mode toggle
 
@@ -265,7 +265,7 @@ Created: docs/features/05-dark-mode/PRD.md
 
 ## Ready for Development
 
-Run `/phase development` to start implementing, or continue adding features.
+Run `/project-studio:phase development` to start implementing, or continue adding features.
 ```
 
 ## Completion
@@ -280,8 +280,8 @@ When add-feature workflow completes:
 
 | Need | Command |
 |------|---------|
-| Add feature to established project | `/add-feature "feature name"` |
-| Start brand new project | `/new-project` |
-| Onboard existing codebase | `/continue-project` |
-| Check current phase | `/phase status` |
-| Verify gate criteria | `/gate-check` |
+| Add feature to established project | `/project-studio:add-feature "feature name"` |
+| Start brand new project | `/project-studio:new-project` |
+| Onboard existing codebase | `/project-studio:continue-project` |
+| Check current phase | `/project-studio:phase status` |
+| Verify gate criteria | `/project-studio:gate-check` |

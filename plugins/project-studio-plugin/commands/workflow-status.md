@@ -1,5 +1,5 @@
 ---
-name: workflow-status
+name: project-studio:workflow-status
 description: Show workflow state and recommendations for continuing. Reads orchestration state and provides context for next steps.
 ---
 
@@ -13,8 +13,8 @@ $ARGUMENTS
 
 ## Usage
 
-- `/workflow-status` - Show current state and recommendations for continuing
-- `/workflow-status --verbose` - Show detailed state including all session history
+- `/project-studio:workflow-status` - Show current state and recommendations for continuing
+- `/project-studio:workflow-status --verbose` - Show detailed state including all session history
 
 ## How It Works
 
@@ -28,7 +28,7 @@ This command reads `.project-studio/state.yaml` to understand:
 
 ## Implementation
 
-When `/workflow-status` is invoked:
+When `/project-studio:workflow-status` is invoked:
 
 ### 1. Check for State File
 
@@ -37,7 +37,7 @@ When `/workflow-status` is invoked:
 if [ -f ".project-studio/state.yaml" ]; then
     # State exists, read and present
 else
-    # No state - suggest starting fresh or running /phase status
+    # No state - suggest starting fresh or running /project-studio:phase status
 fi
 ```
 
@@ -69,9 +69,9 @@ Display a structured summary:
 2. {alternative if blocked}
 
 ### Quick Commands
-- `/phase {current}` - Continue current phase
-- `/gate-check` - Check if ready to advance
-- `/phase status` - See full artifact status
+- `/project-studio:phase {current}` - Continue current phase
+- `/project-studio:gate-check` - Check if ready to advance
+- `/project-studio:phase status` - See full artifact status
 ```
 
 ### 3. Load Relevant Context
@@ -86,7 +86,7 @@ Before continuing, automatically read:
 ### Basic Resume
 
 ```
-User: /workflow-status
+User: /project-studio:workflow-status
 
 🔄 Resuming Project: task-manager-app
 
@@ -104,17 +104,17 @@ Current Phase: Architecture (Phase 3) - IN PROGRESS
 ⏭️ Recommended Next Steps:
 1. Resolve database decision
 2. Complete ARCHITECTURE.md
-3. Run /gate-check before moving to design
+3. Run /project-studio:gate-check before moving to design
 
 💡 Quick Actions:
-• /phase architecture - Continue where you left off
-• /gate-check - Check phase 3 requirements
+• /project-studio:phase architecture - Continue where you left off
+• /project-studio:gate-check - Check phase 3 requirements
 ```
 
 ### Verbose Resume
 
 ```
-User: /workflow-status --verbose
+User: /project-studio:workflow-status --verbose
 
 🔄 Resuming Project: task-manager-app
 ==================================
@@ -184,13 +184,13 @@ docs/features/: ❌ empty
 -------------------------
 1. Resolve database decision (PostgreSQL recommended for relational data)
 2. Complete ARCHITECTURE.md sections: Data Model, Tech Stack
-3. Run /gate-check to validate before Phase 4
+3. Run /project-studio:gate-check to validate before Phase 4
 
 💡 Quick Commands
 -----------------
-/phase architecture  - Continue current phase
-/gate-check         - Validate phase 3 complete
-/phase status       - Full artifact check
+/project-studio:phase architecture  - Continue current phase
+/project-studio:gate-check         - Validate phase 3 complete
+/project-studio:phase status       - Full artifact check
 ```
 
 ## When No State Exists
@@ -206,9 +206,9 @@ This could mean:
 3. Working in wrong directory
 
 **Options:**
-- `/new-project` - Start a new project workflow
-- `/continue-project` - Analyze an existing codebase
-- `/phase status` - Check for existing artifacts
+- `/project-studio:new-project` - Start a new project workflow
+- `/project-studio:continue-project` - Analyze an existing codebase
+- `/project-studio:phase status` - Check for existing artifacts
 
 Current directory: {pwd}
 ```
@@ -226,13 +226,13 @@ This directory may also contain:
 
 ## Integration with Other Commands
 
-The `/workflow-status` command works with:
+The `/project-studio:workflow-status` command works with:
 
-- **`/phase`** - Respects current phase from state
-- **`/gate-check`** - Records results to state
-- **`/new-project`** - Initializes state file
-- **`/continue-project`** - Initializes state for continue workflow
-- **`/add-feature`** - Updates state for add-feature workflow
+- **`/project-studio:phase`** - Respects current phase from state
+- **`/project-studio:gate-check`** - Records results to state
+- **`/project-studio:new-project`** - Initializes state file
+- **`/project-studio:continue-project`** - Initializes state for continue workflow
+- **`/project-studio:add-feature`** - Updates state for add-feature workflow
 
 ## Updating State
 
@@ -259,7 +259,7 @@ Attempting to recover from artifacts...
 - Inferred phase: Architecture (based on existing artifacts)
 
 Options:
-1. `/phase status` - Use artifact-based detection
+1. `/project-studio:phase status` - Use artifact-based detection
 2. Delete .project-studio/state.yaml and reinitialize
 3. Manually fix state file
 ```

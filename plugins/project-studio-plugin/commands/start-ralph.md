@@ -1,12 +1,12 @@
 ---
-name: start-ralph
+name: project-studio:start-ralph
 description: |
   Set up the Ralph autonomous execution environment.
-  Usage: /start-ralph [feature-name]
+  Usage: /project-studio:start-ralph [feature-name]
   Creates .ralph/ directory, copies templates, and creates feature branch.
 ---
 
-# /start-ralph Command
+# /project-studio:start-ralph Command
 
 Initialize the Ralph autonomous agent environment for a feature.
 
@@ -14,10 +14,10 @@ Initialize the Ralph autonomous agent environment for a feature.
 
 ```bash
 # Start Ralph for a specific feature
-/start-ralph booking-discount
+/project-studio:start-ralph booking-discount
 
 # Auto-detect feature from .project-studio state
-/start-ralph
+/project-studio:start-ralph
 ```
 
 ## Process
@@ -51,13 +51,13 @@ project-root/
 
 ## Prerequisites
 
-Before running `/start-ralph`:
+Before running `/project-studio:start-ralph`:
 - Feature PRD should exist at `.project-studio/features/{feature}/PRD.md`
 - Project should have a `CLAUDE.md` file at root (optional but recommended)
 
 ## Implementation Steps
 
-When the user runs `/start-ralph [feature-name]`:
+When the user runs `/project-studio:start-ralph [feature-name]`:
 
 ### Step 1: Determine Feature Name
 ```markdown
@@ -232,7 +232,7 @@ echo "---" >> .ralph/progress.txt
 ### Next Steps
 1. Execute `./run.sh` to start Ralph autonomous execution
 2. Monitor progress in `.ralph/progress.txt`
-3. When complete, run `/archive-feature` to clean up
+3. When complete, run `/project-studio:archive-feature` to clean up
 ```
 
 ## Error Handling
@@ -262,7 +262,7 @@ Error: Feature PRD not found
 
 Expected location: .project-studio/features/{feature}/PRD.md
 
-Please create the Feature PRD first using /add-feature command.
+Please create the Feature PRD first using /project-studio:add-feature command.
 ```
 
 If PRD parsing fails:
@@ -279,8 +279,8 @@ Manual review of prd.json may be needed.
 
 ## Integration with Other Commands
 
-- **Before**: Use `/add-feature` to create Feature PRD at `.project-studio/features/{feature}/PRD.md`
-- **After**: Use `/archive-feature` to clean up completed work
+- **Before**: Use `/project-studio:add-feature` to create Feature PRD at `.project-studio/features/{feature}/PRD.md`
+- **After**: Use `/project-studio:archive-feature` to clean up completed work
 
 ## Notes
 

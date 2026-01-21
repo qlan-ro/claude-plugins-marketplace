@@ -5,11 +5,11 @@ description: |
   - Coordinating multi-phase development workflows
   - Routing to specialized agents (architect, designer, etc.)
   - Managing phase transitions and gate checks
-  - Running /new-project, /continue-project, or /add-feature workflows
+  - Running /project-studio:new-project, /project-studio:continue-project, or /project-studio:add-feature workflows
 
   This skill is for ORCHESTRATION ONLY - it knows WHAT agents to use, not HOW they do their work.
 
-  TRIGGERS: "/new-project", "/continue-project", "/add-feature", "/phase", "/gate-check", "project studio", "workflow status"
+  TRIGGERS: "/project-studio:new-project", "/project-studio:continue-project", "/project-studio:add-feature", "/project-studio:phase", "/project-studio:gate-check", "project studio", "workflow status"
 ---
 
 # Project Studio Orchestration
@@ -28,9 +28,9 @@ Coordinate multi-phase development workflows by routing to specialized agents.
 
 | Command | Use Case | Starting Phase |
 |---------|----------|----------------|
-| `/new-project` | Greenfield development | Phase 1: Discovery |
-| `/continue-project` | Existing codebase | Phase C1: Codebase Analysis |
-| `/add-feature` | Add to established project | Step 1: Validate Foundation |
+| `/project-studio:new-project` | Greenfield development | Phase 1: Discovery |
+| `/project-studio:continue-project` | Existing codebase | Phase C1: Codebase Analysis |
+| `/project-studio:add-feature` | Add to established project | Step 1: Validate Foundation |
 
 ## New Project Phases
 
@@ -128,7 +128,7 @@ Agent runs → Generates output → Returns to orchestrator
                                         ↓
 Orchestrator presents summary → User can review/modify artifacts
                                         ↓
-User runs /gate-check → /phase {next} to continue
+User runs /project-studio:gate-check → /project-studio:phase {next} to continue
 ```
 
 **Why:**
@@ -142,8 +142,8 @@ User runs /gate-check → /phase {next} to continue
 1. Agent completes and returns output to orchestrator
 2. Orchestrator summarizes what was created
 3. User reviews generated artifacts (optional but recommended for key phases)
-4. User runs `/gate-check` to verify readiness
-5. User runs `/phase {next}` to continue
+4. User runs `/project-studio:gate-check` to verify readiness
+5. User runs `/project-studio:phase {next}` to continue
 
 ### Gate Checks (Summary)
 
@@ -156,7 +156,7 @@ User runs /gate-check → /phase {next} to continue
 | 5→6 | Feature PRDs created, stories sized for one context window |
 | 5→6R | Same as 5→6, but user chooses Ralph execution |
 | 6→7 | All stories complete, core tests pass |
-| 6R→7 | All stories have passes:true, /archive-feature run |
+| 6R→7 | All stories have passes:true, /project-studio:archive-feature run |
 | 7→Done | Tests pass, docs complete, deployment ready |
 
 ### Continue Project Gates
@@ -224,7 +224,7 @@ resume_context:        # Next session guidance
 
 When starting a new Claude Code session:
 
-1. Run `/workflow-status` to see current state and recommendations
+1. Run `/project-studio:workflow-status` to see current state and recommendations
 2. State file shows:
    - Current phase and status
    - Pending decisions/blockers
@@ -284,14 +284,14 @@ ralph:
 
 | Event | State Change |
 |-------|--------------|
-| `/start-ralph` | `ralph.active_session = true`, initialize tracking |
+| `/project-studio:start-ralph` | `ralph.active_session = true`, initialize tracking |
 | Story complete | `ralph.stories.completed += 1`, update `last_iteration` |
 | Interruption | `ralph.interrupted = true`, set `resume_context` |
-| `/archive-feature` | `ralph.active_session = false`, clear tracking |
+| `/project-studio:archive-feature` | `ralph.active_session = false`, clear tracking |
 
 ### Resuming Ralph Sessions
 
-The `/workflow-status` command checks for active Ralph sessions:
+The `/project-studio:workflow-status` command checks for active Ralph sessions:
 
 1. **Detection**: `ralph.active_session == true` OR `prd.json` exists with incomplete stories
 2. **Context**: Shows completed vs remaining stories, last commit
@@ -322,28 +322,28 @@ Example resume output:
 
 | Command | Description |
 |---------|-------------|
-| `/start-ralph [feature]` | Initialize Ralph environment |
-| `/archive-feature [feature]` | Archive completed session |
-| `/phase ralph` | Show Ralph execution status |
-| `/workflow-status` | Resume interrupted session |
+| `/project-studio:start-ralph [feature]` | Initialize Ralph environment |
+| `/project-studio:archive-feature [feature]` | Archive completed session |
+| `/project-studio:phase ralph` | Show Ralph execution status |
+| `/project-studio:workflow-status` | Resume interrupted session |
 
 See `commands/start-ralph.md` and `commands/archive-feature.md` for details.
 
 ## Slash Commands
 
-### `/new-project [idea]`
+### `/project-studio:new-project [idea]`
 1. If idea provided, acknowledge and begin Phase 1
 2. If no idea, ask "What would you like to build?"
 3. Spawn product-prd-builder agent
 
-### `/continue-project [path]`
+### `/project-studio:continue-project [path]`
 1. If path provided, begin analysis
 2. If no path, ask for project location
 3. Spawn codebase-analyzer agent
 
-### `/add-feature [description]`
+### `/project-studio:add-feature [description]`
 1. Validate foundation docs exist (PRD, Architecture, Design)
-2. If missing → suggest `/continue-project` instead
+2. If missing → suggest `/project-studio:continue-project` instead
 3. If foundation exists:
    - Update PRD with new feature(s) → product-prd-builder (append mode)
    - Run impact analysis (architecture, design, AI tools)
@@ -351,7 +351,7 @@ See `commands/start-ralph.md` and `commands/archive-feature.md` for details.
    - Create Feature PRD for new items only
    - Continue to development
 
-### `/phase [name|status]`
+### `/project-studio:phase [name|status]`
 - `status` → Report artifact presence and current phase
 - `discovery` → Phase 1 with product-prd-builder
 - `architecture` → Phase 3 with architect
@@ -359,7 +359,7 @@ See `commands/start-ralph.md` and `commands/archive-feature.md` for details.
 - `planning` → Phase 5 with feature-prd-builder
 - `ralph` → Phase 6R Ralph execution status (stories completed, remaining)
 
-### `/gate-check [phase]`
+### `/project-studio:gate-check [phase]`
 1. Detect current phase from artifacts (or use specified phase)
 2. Run checklist for that gate
 3. Report PASS/FAIL with specific issues
@@ -368,22 +368,22 @@ See `commands/start-ralph.md` and `commands/archive-feature.md` for details.
 ## Orchestration Flow Example
 
 ```
-User: /new-project "task management app"
+User: /project-studio:new-project "task management app"
 
 Orchestrator:
   1. "Starting Phase 1: Discovery"
   2. Spawn product-prd-builder agent
   3. Agent completes → returns summary
   4. "Phase 1 Complete. Created docs/PRODUCT_PRD.md"
-  5. "Run /gate-check then /phase ai-workflow to continue"
+  5. "Run /project-studio:gate-check then /project-studio:phase ai-workflow to continue"
 
-User: /gate-check
+User: /project-studio:gate-check
 
 Orchestrator:
   6. Checks gate criteria
   7. "Gate 1 PASSED. Ready for Phase 2."
 
-User: /phase ai-workflow
+User: /project-studio:phase ai-workflow
 
 Orchestrator:
   8. "Starting Phase 2: AI Workflow"
@@ -391,8 +391,8 @@ Orchestrator:
   10. Agent completes → returns summary
   11. "Phase 2 Complete. Created .ai-workflow.yaml"
 
-User: /gate-check
-User: /phase architecture
+User: /project-studio:gate-check
+User: /project-studio:phase architecture
 ... continues with user controlling transitions
 ```
 
@@ -400,7 +400,7 @@ User: /phase architecture
 
 1. **Never duplicate agent knowledge** - Orchestrator routes, agents execute
 2. **Agents complete without blocking** - Never ask questions mid-execution
-3. **User controls advancement** - User explicitly runs `/phase {next}`
+3. **User controls advancement** - User explicitly runs `/project-studio:phase {next}`
 4. **Always check gates** - Don't skip phases without user consent
 5. **Track artifacts** - Use file existence to determine current state
 6. **Spawn correct agent** - Each phase has ONE designated agent
@@ -509,7 +509,7 @@ After all stories in Feature PRD are complete:
 
 ```
 1. Orchestrator detects feature completion
-2. Runs /gate-check for Phase 6→7
+2. Runs /project-studio:gate-check for Phase 6→7
 3. Spawns git-workflow agent (feature-pr mode)
 4. Agent pushes branch
 5. Agent creates PR via GitHub CLI
@@ -549,17 +549,17 @@ After feature completion:
 
 ### Slash Command Updates
 
-#### `/commit` (New)
+#### `/project-studio:commit` (New)
 Manually trigger a commit for current work:
 ```
-/commit "feat(bookings): add discount field"
+/project-studio:commit "feat(bookings): add discount field"
 ```
 Spawns git-workflow in story-commit mode.
 
-#### `/pr` (New)
+#### `/project-studio:pr` (New)
 Manually create a PR for current feature:
 ```
-/pr
+/project-studio:pr
 ```
 Spawns git-workflow in feature-pr mode.
 

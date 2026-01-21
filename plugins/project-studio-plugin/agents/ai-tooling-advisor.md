@@ -273,7 +273,7 @@ Configuration generated with recommended defaults.
 - See `.claude/handoff/README.md` for handoff protocol
 
 **To proceed:**
-Run `/gate-check` then `/phase {next}` to continue.
+Run `/project-studio:gate-check` then `/project-studio:phase {next}` to continue.
 ```
 
 ---

@@ -1,5 +1,5 @@
 ---
-name: new-project
+name: project-studio:new-project
 description: Start a new project from an idea - guides through discovery, architecture, design, and planning phases optimized for AI agent execution
 ---
 
@@ -42,7 +42,7 @@ Before beginning, initialize the orchestration state file for session continuity
 
 This enables:
 - Session history tracking
-- Resume capability via `/workflow-status`
+- Resume capability via `/project-studio:workflow-status`
 - Pending decision tracking
 - Artifact change logging
 
@@ -129,7 +129,7 @@ Prepare for production:
 Only advance to the next phase when:
 - All required artifacts are complete
 - User has explicitly approved the output
-- Run `/gate-check` to verify readiness
+- Run `/project-studio:gate-check` to verify readiness
 
 ## Quick Reference
 

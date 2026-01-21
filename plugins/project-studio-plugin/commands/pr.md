@@ -1,12 +1,12 @@
 ---
-name: pr
+name: project-studio:pr
 description: |
   Create a pull request for the current feature branch.
-  Usage: /pr [--draft]
+  Usage: /project-studio:pr [--draft]
   Requires all stories to be committed.
 ---
 
-# /pr Command
+# /project-studio:pr Command
 
 Create a pull request for the current feature via the git-workflow agent.
 
@@ -14,10 +14,10 @@ Create a pull request for the current feature via the git-workflow agent.
 
 ```bash
 # Create PR
-/pr
+/project-studio:pr
 
 # Create draft PR
-/pr --draft
+/project-studio:pr --draft
 ```
 
 ## Prerequisites
@@ -68,11 +68,11 @@ Generated from Feature PRD and progress.txt:
 
 ```bash
 # After completing all stories
-/pr
+/project-studio:pr
 # Output: PR #123 created: https://github.com/org/repo/pull/123
 
 # For work-in-progress
-/pr --draft
+/project-studio:pr --draft
 # Output: Draft PR #124 created: https://github.com/org/repo/pull/124
 ```
 
@@ -112,7 +112,7 @@ Pending:
 [ ] US-003: Apply discount to total - IN_PROGRESS
 [ ] US-004: Discount reports - PENDING
 
-Run /commit for each story first.
+Run /project-studio:commit for each story first.
 ```
 
 If uncommitted changes:
@@ -122,7 +122,7 @@ If uncommitted changes:
 Modified files:
 - src/services/BookingService.ts
 
-Run /commit first.
+Run /project-studio:commit first.
 ```
 
 If not on feature branch:

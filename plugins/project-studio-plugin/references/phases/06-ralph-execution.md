@@ -17,7 +17,7 @@ Traditional Development (06-development.md):
   Human writes code → Human tests → Human commits
 
 Ralph Execution (06-ralph-execution.md):
-  /start-ralph → Ralph implements → Ralph commits → /archive-feature
+  /project-studio:start-ralph → Ralph implements → Ralph commits → /project-studio:archive-feature
 ```
 
 ## Why Ralph?
@@ -46,7 +46,7 @@ Use traditional development when:
 ### 1. Initialize Ralph Environment
 
 ```bash
-/start-ralph {feature-name}
+/project-studio:start-ralph {feature-name}
 ```
 
 This command:
@@ -131,7 +131,7 @@ Ralph resumes from the next incomplete story automatically.
 When all stories have `passes: true`:
 
 ```bash
-/archive-feature
+/project-studio:archive-feature
 ```
 
 This command:
@@ -174,7 +174,7 @@ ralph:
 ### State Transitions
 
 ```
-/start-ralph:
+/project-studio:start-ralph:
   ralph.active_session = true
   ralph.feature = {feature}
   ralph.started_at = {now}
@@ -190,7 +190,7 @@ Interruption detected:
   ralph.interrupted = true
   ralph.resume_context = "Last completed: US-XXX"
 
-/archive-feature:
+/project-studio:archive-feature:
   ralph.active_session = false
   ralph.feature = null
   features.items[feature].status = "completed"
@@ -202,7 +202,7 @@ Interruption detected:
 
 ### Detection
 
-When running `/workflow-status` command, orchestrator checks:
+When running `/project-studio:workflow-status` command, orchestrator checks:
 1. Is `ralph.active_session == true`?
 2. Does `prd.json` exist with incomplete stories?
 3. Does `progress.txt` show partial completion?
@@ -210,7 +210,7 @@ When running `/workflow-status` command, orchestrator checks:
 ### Resume Flow
 
 ```markdown
-User: /workflow-status
+User: /project-studio:workflow-status
 
 Orchestrator detects:
 - Ralph session was active
@@ -241,7 +241,7 @@ Output:
 
 ### Manual Resume
 
-If `/workflow-status` doesn't work, manual recovery:
+If `/project-studio:workflow-status` doesn't work, manual recovery:
 
 ```bash
 # Check current state
@@ -261,7 +261,7 @@ tail -50 progress.txt
 ```
 1. User completes Phase 5 (Planning)
 2. Gate check passes (stories sized for single context window)
-3. User runs /phase ralph OR /start-ralph {feature}
+3. User runs /project-studio:phase ralph OR /project-studio:start-ralph {feature}
 4. Orchestrator initializes Ralph environment
 5. State updates: phase.current = "ralph-execution"
 ```
@@ -272,7 +272,7 @@ tail -50 progress.txt
 1. Each Ralph iteration commits changes
 2. progress.txt updated (source of truth)
 3. state.yaml sync (optional, via hook or manual)
-4. Orchestrator can report status via /phase status
+4. Orchestrator can report status via /project-studio:phase status
 ```
 
 ### Phase Exit (to Phase 7)
@@ -280,7 +280,7 @@ tail -50 progress.txt
 ```
 1. All stories complete (all passes: true)
 2. Ralph outputs <promise>COMPLETE</promise>
-3. User runs /archive-feature
+3. User runs /project-studio:archive-feature
 4. State updates: phase.current = "quality"
 5. Proceed to Quality phase gate check
 ```
@@ -289,17 +289,17 @@ tail -50 progress.txt
 
 ## Slash Commands
 
-### `/start-ralph [feature-name]`
+### `/project-studio:start-ralph [feature-name]`
 Initialize Ralph environment for autonomous execution.
 
 See `commands/start-ralph.md` for full documentation.
 
-### `/archive-feature [feature-name]`
+### `/project-studio:archive-feature [feature-name]`
 Archive completed Ralph session and clean up.
 
-See `commands/archive-feature.md` for full documentation.
+See `commands/project-studio:archive-feature.md` for full documentation.
 
-### `/phase ralph` or `/phase status`
+### `/project-studio:phase ralph` or `/project-studio:phase status`
 Show current Ralph execution status:
 - Stories completed vs remaining
 - Last commit info
@@ -346,7 +346,7 @@ Before proceeding to Quality (Phase 7):
 - [ ] All commits follow conventional format
 - [ ] progress.txt documents all implementations
 - [ ] No broken tests (Ralph enforces this per-story)
-- [ ] Feature archived via `/archive-feature`
+- [ ] Feature archived via `/project-studio:archive-feature`
 - [ ] state.yaml shows Ralph session completed
 
 ---
@@ -371,7 +371,7 @@ Before proceeding to Quality (Phase 7):
 
 1. Stop Ralph execution
 2. Update Feature PRD to split large stories
-3. Re-run `/start-ralph` to regenerate `prd.json`
+3. Re-run `/project-studio:start-ralph` to regenerate `prd.json`
 4. Continue execution
 
 ### Branch conflicts
@@ -400,4 +400,4 @@ git stash pop
 3. **Clear acceptance criteria** - Each criterion should be verifiable
 4. **Monitor progress** - Check `progress.txt` periodically
 5. **Don't interrupt unnecessarily** - Let Ralph complete stories
-6. **Archive promptly** - Run `/archive-feature` when complete
+6. **Archive promptly** - Run `/project-studio:archive-feature` when complete

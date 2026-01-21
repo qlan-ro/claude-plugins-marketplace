@@ -366,7 +366,7 @@ case "$ACTION" in
             fi
         else
             echo "No orchestration state found"
-            echo "Run a /new-project or /continue-project command to start"
+            echo "Run a /project-studio:new-project or /project-studio:continue-project command to start"
         fi
         ;;
 

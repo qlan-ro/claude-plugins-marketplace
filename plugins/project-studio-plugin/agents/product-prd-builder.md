@@ -118,7 +118,7 @@ Created `docs/PRODUCT_PRD.md` with:
 2. Adjust features, priorities, or scope
 
 **To proceed:**
-Run `/gate-check` then `/phase ai-workflow` to continue.
+Run `/project-studio:gate-check` then `/project-studio:phase ai-workflow` to continue.
 ```
 
 ## Completion

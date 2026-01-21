@@ -43,13 +43,13 @@ echo "=================================="
 # Check for required files in .ralph/
 if [ ! -f "$PRD_FILE" ]; then
     echo -e "${RED}Error: $PRD_FILE not found${NC}"
-    echo "Run /start-ralph first to set up the environment"
+    echo "Run /project-studio:start-ralph first to set up the environment"
     exit 1
 fi
 
 if [ ! -f "$INSTRUCTIONS_FILE" ]; then
     echo -e "${RED}Error: $INSTRUCTIONS_FILE not found${NC}"
-    echo "Run /start-ralph first to set up the environment"
+    echo "Run /project-studio:start-ralph first to set up the environment"
     exit 1
 fi
 
@@ -147,7 +147,7 @@ your-project/
 
 - **No conflicts** - Your project's `CLAUDE.md` stays untouched
 - **Clean separation** - Ralph workspace is isolated
-- **Easy cleanup** - Just delete `.ralph/` when done (or use `/archive-feature`)
+- **Easy cleanup** - Just delete `.ralph/` when done (or use `/project-studio:archive-feature`)
 
 ## Customization
 

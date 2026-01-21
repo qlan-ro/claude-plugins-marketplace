@@ -548,7 +548,7 @@ skills:
 
 ## Add-Feature Mode (Feature)
 
-When adding features via `/add-feature` that may need new AI tools:
+When adding features via `/project-studio:add-feature` that may need new AI tools:
 
 ### When to Trigger Feature Mode
 

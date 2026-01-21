@@ -164,9 +164,9 @@ Before finalizing a story, ask:
 
 ---
 
-## Integration with /start-ralph
+## Integration with /project-studio:start-ralph
 
-The `/start-ralph` command should validate stories before creating `prd.json`:
+The `/project-studio:start-ralph` command should validate stories before creating `prd.json`:
 
 1. Parse each story from Feature PRD
 2. Apply validation rules above

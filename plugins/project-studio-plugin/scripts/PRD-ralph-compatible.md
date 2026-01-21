@@ -8,7 +8,7 @@ Transform the project-studio-plugin to be **Ralph-compatible** by generating pro
 
 1. Generate Ralph-compatible output files from Feature PRDs
 2. Handle CLAUDE.md conflict (project instructions vs Ralph execution rules)
-3. Create `/start-ralph` and `/archive-feature` commands
+3. Create `/project-studio:start-ralph` and `/project-studio:archive-feature` commands
 4. Enable standalone operation (no companion app required)
 
 ---
@@ -18,7 +18,7 @@ Transform the project-studio-plugin to be **Ralph-compatible** by generating pro
 ### US-001: Create Ralph Run Wrapper Script Generator
 
 **As a** developer using project-studio-plugin
-**I want** a `/start-ralph` command that generates `.ralph/run.sh`
+**I want** a `/project-studio:start-ralph` command that generates `.ralph/run.sh`
 **So that** I can run Ralph with combined context (execution rules + project instructions)
 
 **Acceptance Criteria:**
@@ -32,7 +32,7 @@ Transform the project-studio-plugin to be **Ralph-compatible** by generating pro
 - Creates git branch `ralph/{feature-name}`
 
 **Files to modify:**
-- `commands/start-ralph.md` (new)
+- `commands/project-studio:start-ralph.md` (new)
 - `assets/templates/ralph-instructions.md` (new)
 - `assets/templates/ralph-run-sh.md` (new)
 
@@ -59,7 +59,7 @@ Transform the project-studio-plugin to be **Ralph-compatible** by generating pro
 ### US-003: Create Feature PRD to prd.json Converter
 
 **As a** developer
-**I want** `/start-ralph` to convert `.project-studio/features/*/PRD.md` to `prd.json`
+**I want** `/project-studio:start-ralph` to convert `.project-studio/features/*/PRD.md` to `prd.json`
 **So that** vanilla ralph.sh can execute my features
 
 **Acceptance Criteria:**
@@ -70,7 +70,7 @@ Transform the project-studio-plugin to be **Ralph-compatible** by generating pro
 - JSON validates against Ralph's expected schema
 
 **Files to modify:**
-- `commands/start-ralph.md` (update)
+- `commands/project-studio:start-ralph.md` (update)
 - `skills/prd-conversion/SKILL.md` (new)
 
 ---
@@ -78,7 +78,7 @@ Transform the project-studio-plugin to be **Ralph-compatible** by generating pro
 ### US-004: Create Archive Feature Command
 
 **As a** developer
-**I want** `/archive-feature` command
+**I want** `/project-studio:archive-feature` command
 **So that** completed features are archived and I can start the next one
 
 **Acceptance Criteria:**
@@ -89,7 +89,7 @@ Transform the project-studio-plugin to be **Ralph-compatible** by generating pro
 - Prints summary of completed stories
 
 **Files to modify:**
-- `commands/archive-feature.md` (new)
+- `commands/project-studio:archive-feature.md` (new)
 
 ---
 
@@ -120,7 +120,7 @@ Transform the project-studio-plugin to be **Ralph-compatible** by generating pro
 
 **Acceptance Criteria:**
 - New phase: "Ralph Execution" after Planning phase
-- Phase includes: `/start-ralph`, monitor progress, `/archive-feature`
+- Phase includes: `/project-studio:start-ralph`, monitor progress, `/project-studio:archive-feature`
 - State tracking for active Ralph session
 - Can resume interrupted Ralph sessions
 
@@ -150,7 +150,7 @@ Transform the project-studio-plugin to be **Ralph-compatible** by generating pro
 }
 ```
 
-### Directory Structure After /start-ralph
+### Directory Structure After /project-studio:start-ralph
 
 ```
 project-root/

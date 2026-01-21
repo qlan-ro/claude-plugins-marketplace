@@ -204,7 +204,7 @@ Status markers:
 
 ## Add-Feature Mode (Append)
 
-When adding features to an EXISTING PRD via `/add-feature`:
+When adding features to an EXISTING PRD via `/project-studio:add-feature`:
 
 ### Rules for Append Mode
 

@@ -212,7 +212,7 @@ resume_context:
     - "Real-time features needed?"
 ```
 
-Human-readable context for the next session. This is what `/workflow-status` displays.
+Human-readable context for the next session. This is what `/project-studio:workflow-status` displays.
 
 ### Artifact Tracking
 
@@ -294,7 +294,7 @@ brew install yq  # macOS
 
 ## Commands
 
-### `/workflow-status`
+### `/project-studio:workflow-status`
 
 Shows current state and recommendations for continuing:
 
@@ -315,11 +315,11 @@ Current Phase: Architecture (Phase 3) - IN PROGRESS
 2. Complete ARCHITECTURE.md
 
 💡 Quick Actions:
-• /phase architecture - Continue
-• /gate-check - Validate
+• /project-studio:phase architecture - Continue
+• /project-studio:gate-check - Validate
 ```
 
-### `/phase status`
+### `/project-studio:phase status`
 
 Enhanced with state file data (shows both artifact-based and state-based status).
 
@@ -329,7 +329,7 @@ Enhanced with state file data (shows both artifact-based and state-based status)
 
 When opening Claude Code on a project:
 ```
-/workflow-status
+/project-studio:workflow-status
 ```
 
 This loads context and shows what to do next.
@@ -382,7 +382,7 @@ yq . .project-studio/state.yaml
 
 # If corrupted, can regenerate from artifacts
 rm .project-studio/state.yaml
-/phase status  # Uses artifact-based detection
+/project-studio:phase status  # Uses artifact-based detection
 # Then reinitialize state manually
 ```
 
@@ -399,7 +399,7 @@ apt-get install yq  # Debian/Ubuntu
 If state doesn't match actual artifacts:
 ```bash
 # Check actual artifacts
-/phase status
+/project-studio:phase status
 
 # Manually update state
 ./hooks/update-orchestration-state.sh phase-complete <phase>

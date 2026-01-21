@@ -260,10 +260,10 @@ If you need manual control:
 
 ```bash
 # Manually commit current work
-/commit "feat(scope): description"
+/project-studio:commit "feat(scope): description"
 
 # Manually create PR
-/pr
+/project-studio:pr
 
 # Check git status
 git status

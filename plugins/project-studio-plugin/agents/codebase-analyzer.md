@@ -76,8 +76,8 @@ Based on detected tech stack, install these skills before continuing:
 
 **To proceed:**
 1. Install recommended skills (optional but recommended)
-2. Run `/gate-check`
-3. Run `/phase infer-prd` to continue
+2. Run `/project-studio:gate-check`
+3. Run `/project-studio:phase infer-prd` to continue
 ```
 
 ## Skill Recommendations

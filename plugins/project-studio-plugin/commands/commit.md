@@ -1,12 +1,12 @@
 ---
-name: commit
+name: project-studio:commit
 description: |
   Commit current work with a conventional commit message.
-  Usage: /commit [message]
+  Usage: /project-studio:commit [message]
   If no message provided, generates one based on changes.
 ---
 
-# /commit Command
+# /project-studio:commit Command
 
 Manually trigger a commit for current work via the git-workflow agent.
 
@@ -14,10 +14,10 @@ Manually trigger a commit for current work via the git-workflow agent.
 
 ```bash
 # With explicit message
-/commit "feat(bookings): add discount field"
+/project-studio:commit "feat(bookings): add discount field"
 
 # Auto-generate message from changes
-/commit
+/project-studio:commit
 ```
 
 ## Process
@@ -52,16 +52,16 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ```bash
 # Feature commit
-/commit "feat(auth): add OAuth2 login flow"
+/project-studio:commit "feat(auth): add OAuth2 login flow"
 
 # Bug fix
-/commit "fix(api): resolve null pointer in user lookup"
+/project-studio:commit "fix(api): resolve null pointer in user lookup"
 
 # Refactoring
-/commit "refactor(services): extract validation logic"
+/project-studio:commit "refactor(services): extract validation logic"
 
 # Let agent decide
-/commit
+/project-studio:commit
 # Agent analyzes changes and creates appropriate message
 ```
 

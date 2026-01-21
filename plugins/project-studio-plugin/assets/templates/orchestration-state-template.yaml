@@ -173,7 +173,7 @@ preferences:
   skip_confirmations: false
 
 # Ralph autonomous execution tracking
-# This section is populated when /start-ralph is run
+# This section is populated when /project-studio:start-ralph is run
 ralph:
   active_session: false     # Is a Ralph session currently active?
   feature: null             # Current feature being executed

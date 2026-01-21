@@ -1,5 +1,5 @@
 ---
-name: gate-check
+name: project-studio:gate-check
 description: Run phase gate checklist to verify readiness before advancing to the next phase
 ---
 
@@ -11,7 +11,7 @@ Verify readiness to advance to the next phase by checking required artifacts and
 
 $ARGUMENTS
 
-If a phase is specified (e.g., `/gate-check discovery`), check that specific gate.
+If a phase is specified (e.g., `/project-studio:gate-check discovery`), check that specific gate.
 If no argument, detect current phase and check the appropriate gate.
 
 ## Gate Checklists

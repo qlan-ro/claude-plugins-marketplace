@@ -236,7 +236,7 @@ Before finalizing, ensure:
 
 ## Add-Feature Mode (Amendment)
 
-When adding features via `/add-feature` that require architecture changes:
+When adding features via `/project-studio:add-feature` that require architecture changes:
 
 ### Rules for Amendment Mode
 

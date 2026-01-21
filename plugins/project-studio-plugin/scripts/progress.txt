@@ -36,9 +36,9 @@ Started: Wed Jan 21 01:20:42 EET 2026
 ---
 
 ## 2026-01-21 01:32 EET - US-003
-- **Implemented:** Created /start-ralph command at `commands/start-ralph.md`
+- **Implemented:** Created /project-studio:start-ralph command at `commands/project-studio:start-ralph.md`
 - **Files changed:**
-  - `commands/start-ralph.md` (new)
+  - `commands/project-studio:start-ralph.md` (new)
 - **Learnings for future iterations:**
   - Pattern: Commands go in `commands/` directory with frontmatter (name, description) and detailed process documentation
   - Pattern: Commands document both the user-facing usage AND the implementation steps for the agent
@@ -49,16 +49,16 @@ Started: Wed Jan 21 01:20:42 EET 2026
 ---
 
 ## 2026-01-21 01:38 EET - US-004
-- **Implemented:** Added PRD-to-JSON conversion functionality to `/start-ralph` command
+- **Implemented:** Added PRD-to-JSON conversion functionality to `/project-studio:start-ralph` command
 - **Files changed:**
-  - `commands/start-ralph.md` (modified - added 137 lines)
+  - `commands/project-studio:start-ralph.md` (modified - added 137 lines)
 - **Learnings for future iterations:**
   - Pattern: PRD parsing expects specific markdown format: `### US-XXX: {Title}`, `**Description:**`, and `- [ ]` for criteria
   - Pattern: JSON schema for prd.json includes: project, branchName, description, userStories[] with id/title/description/acceptanceCriteria/priority/passes/notes
   - Pattern: Include both parsing algorithm AND concrete examples (input/output) for clarity
   - Gotcha: The checkbox syntax `- [ ]` is stripped to just extract the criteria text
   - Gotcha: Project name in JSON is derived from PRD title (e.g., "User Dashboard" → "user-dashboard")
-  - Context: Feature PRD must exist at `.project-studio/features/{feature}/PRD.md` before running /start-ralph
+  - Context: Feature PRD must exist at `.project-studio/features/{feature}/PRD.md` before running /project-studio:start-ralph
   - Context: All stories start with `passes: false` - Ralph updates this as it completes each story
 ---
 
@@ -73,14 +73,14 @@ Started: Wed Jan 21 01:20:42 EET 2026
   - Pattern: Include warning message templates so agents know exactly how to format warnings
   - Pattern: Cross-reference related documents (checklist links to skill, skill links to checklist)
   - Gotcha: "Typecheck passes" is N/A for markdown-only plugins (established in US-001)
-  - Context: The story-sizing.md includes integration guidance for /start-ralph command
+  - Context: The story-sizing.md includes integration guidance for /project-studio:start-ralph command
   - Context: Splitting strategies are documented by layer, operation, component, and data flow
 ---
 
 ## 2026-01-21 01:47 EET - US-006
-- **Implemented:** Created /archive-feature command at `commands/archive-feature.md`
+- **Implemented:** Created /project-studio:archive-feature command at `commands/project-studio:archive-feature.md`
 - **Files changed:**
-  - `commands/archive-feature.md` (new - 290 lines)
+  - `commands/project-studio:archive-feature.md` (new - 290 lines)
 - **Learnings for future iterations:**
   - Pattern: Archive commands should verify preconditions (all stories complete) before proceeding
   - Pattern: Archive directory naming uses date prefix for chronological ordering: `{date}-{feature}/`
@@ -88,7 +88,7 @@ Started: Wed Jan 21 01:20:42 EET 2026
   - Pattern: Commands should handle state.yaml updates for feature tracking (status, counters)
   - Gotcha: The .ralph/INSTRUCTIONS.md template should be preserved for future features
   - Gotcha: Need to handle edge case of archive directory already existing (use unique suffix)
-  - Context: This command pairs with /start-ralph - start sets up, archive cleans up
+  - Context: This command pairs with /project-studio:start-ralph - start sets up, archive cleans up
   - Context: The command does NOT create a PR or merge branches - those are separate concerns
 ---
 
@@ -104,7 +104,7 @@ Started: Wed Jan 21 01:20:42 EET 2026
   - Pattern: Resume capability relies on detecting ralph.active_session AND checking prd.json for incomplete stories
   - Pattern: Document both the happy path AND interruption recovery for autonomous workflows
   - Gotcha: Phase 6 now has two variants: traditional (06-development.md) and Ralph (06-ralph-execution.md)
-  - Gotcha: The /phase ralph command shows status, while /start-ralph initializes - different purposes
-  - Context: State transitions are: /start-ralph → story iterations → /archive-feature
+  - Gotcha: The /project-studio:phase ralph command shows status, while /project-studio:start-ralph initializes - different purposes
+  - Context: State transitions are: /project-studio:start-ralph → story iterations → /project-studio:archive-feature
   - Context: The orchestration skill uses gate checks 5→6R and 6R→7 specifically for Ralph execution path
 ---

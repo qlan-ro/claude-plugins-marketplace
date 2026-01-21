@@ -1,6 +1,6 @@
 ---
-name: phase
-description: Jump to or check status of a specific phase (e.g., /phase discovery, /phase architecture, /phase status)
+name: project-studio:phase
+description: Jump to or check status of a specific phase (e.g., /project-studio:phase discovery, /project-studio:phase architecture, /project-studio:phase status)
 ---
 
 # Phase Navigation
@@ -13,15 +13,15 @@ $ARGUMENTS
 
 ## Usage
 
-- `/phase status` - Show current phase and progress
-- `/phase discovery` - Jump to Phase 1 (Discovery / Codebase Analysis)
-- `/phase ai-workflow` - Jump to Phase 2 (AI Workflow Config) or Phase C5 (Audit)
-- `/phase architecture` - Jump to Phase 3 (Architecture)
-- `/phase design` - Jump to Phase 4 (Design)
-- `/phase ai-tooling-audit` - Jump to Phase C5 (AI Tooling Audit - continue workflow only)
-- `/phase planning` - Jump to Phase 5 (Planning / Feature PRDs)
-- `/phase development` - Jump to Phase 6 (Development)
-- `/phase quality` - Jump to Phase 7 (Quality)
+- `/project-studio:phase status` - Show current phase and progress
+- `/project-studio:phase discovery` - Jump to Phase 1 (Discovery / Codebase Analysis)
+- `/project-studio:phase ai-workflow` - Jump to Phase 2 (AI Workflow Config) or Phase C5 (Audit)
+- `/project-studio:phase architecture` - Jump to Phase 3 (Architecture)
+- `/project-studio:phase design` - Jump to Phase 4 (Design)
+- `/project-studio:phase ai-tooling-audit` - Jump to Phase C5 (AI Tooling Audit - continue workflow only)
+- `/project-studio:phase planning` - Jump to Phase 5 (Planning / Feature PRDs)
+- `/project-studio:phase development` - Jump to Phase 6 (Development)
+- `/project-studio:phase quality` - Jump to Phase 7 (Quality)
 
 ## Phase Status Check
 
@@ -97,7 +97,7 @@ When jumping to a specific phase:
 
 ## Example Responses
 
-### `/phase status`
+### `/project-studio:phase status`
 ```
 📊 Project Status
 
@@ -110,10 +110,10 @@ When jumping to a specific phase:
 ⏳ Phase 7: Quality - NOT STARTED
 
 Current: Phase 3 (Architecture)
-Recommendation: Complete ARCHITECTURE.md, then run /gate-check
+Recommendation: Complete ARCHITECTURE.md, then run /project-studio:gate-check
 ```
 
-### `/phase design`
+### `/project-studio:phase design`
 ```
 ⚠️ Jumping to Phase 4 (Design)
 
