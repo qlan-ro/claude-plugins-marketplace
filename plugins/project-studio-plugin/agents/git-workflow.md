@@ -8,6 +8,7 @@ description: |
   Handles all git operations following conventional commits and project branching strategy.
 tools: Bash, Read, Glob, Grep
 model: haiku
+color: pink
 ---
 
 # Git Workflow Agent

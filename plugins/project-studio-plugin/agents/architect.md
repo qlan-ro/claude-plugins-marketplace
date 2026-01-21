@@ -9,6 +9,7 @@ description: |
 tools: Read, Write, Glob, Grep, WebSearch
 model: sonnet
 skills: arch-decisions
+color: pink
 ---
 
 # Architect Agent

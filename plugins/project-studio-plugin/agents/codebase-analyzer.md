@@ -9,6 +9,7 @@ description: |
 tools: Read, Write, Glob, Grep, Bash
 model: sonnet
 skills: codebase-analysis
+color: pink
 ---
 
 # Codebase Analyzer Agent

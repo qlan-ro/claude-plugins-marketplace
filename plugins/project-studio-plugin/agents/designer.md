@@ -9,6 +9,7 @@ description: |
 tools: Read, Write, Glob, Grep
 model: sonnet
 skills: ux-design
+color: pink
 ---
 
 # Designer Agent

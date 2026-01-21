@@ -9,6 +9,7 @@ description: |
 tools: Read, Write, Glob, Grep
 model: sonnet
 skills: story-writing
+color: pink
 ---
 
 # Feature PRD Builder Agent

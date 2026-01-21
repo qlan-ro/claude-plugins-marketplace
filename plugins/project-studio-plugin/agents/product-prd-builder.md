@@ -8,6 +8,7 @@ description: |
 tools: Read, Write, Glob, Grep
 model: sonnet
 skills: prd-discovery
+color: pink
 ---
 
 # Product PRD Builder Agent
@@ -47,9 +48,10 @@ Without scaffolding, the AI agent (Ralph) cannot:
 ```markdown
 ### Foundation (Build First)
 1. **Project Scaffolding** - Initialize TypeScript project with Vite, Vitest, ESLint, Prettier
-2. User authentication - Implement login/logout with JWT
-3. Core data models - Define database schema and entities
+2. **User authentication** - Signup, login, logout (schema + API + UI - full vertical slice)
 ```
+
+Note: After scaffolding, all features must be **vertical slices** (schema + API + UI together). See the `prd-discovery` skill for detailed templates and anti-patterns to avoid.
 
 ## Three Modes
 

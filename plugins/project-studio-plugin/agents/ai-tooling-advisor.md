@@ -10,6 +10,7 @@ description: |
 tools: Read, Write, Glob, Grep, WebSearch, Bash
 model: haiku
 skills: ai-tooling
+color: pink
 ---
 
 # AI Tooling Advisor Agent
