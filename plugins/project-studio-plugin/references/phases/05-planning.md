@@ -20,22 +20,30 @@ The Product PRD defined **what** to build. Design defined **how it looks**. Arch
 
 For each feature in the backlog (in dependency order), generate a Feature PRD.
 
+**CRITICAL: Project Scaffolding Must Be Feature #1**
+
+The first feature PRD must ALWAYS be Project Scaffolding. Without it, Ralph cannot:
+- Run typechecks, tests, or builds
+- Verify acceptance criteria
+- Execute any subsequent features
+
 **Output structure:**
 ```
 docs/features/
-├── 01-user-authentication/
+├── 01-project-scaffolding/    ← ALWAYS FIRST
 │   ├── PRD.md
 │   └── progress.txt
-├── 02-session-recording/
+├── 02-user-authentication/
 │   ├── PRD.md
 │   └── progress.txt
-├── 03-heatmap-display/
+├── 03-session-recording/
 │   ├── PRD.md
 │   └── progress.txt
 └── ...
 ```
 
 Use `assets/templates/feature-prd-template.md` for each feature.
+For scaffolding specifically, use `assets/templates/scaffolding-feature-prd.md` if available.
 
 ### 2. Story Sizing (Critical Rule)
 
@@ -181,6 +189,7 @@ Also generate:
 ## Phase Gate Checklist
 
 Before proceeding to Development:
+- [ ] **Feature #1 is Project Scaffolding** (package.json, build, tests, lint)
 - [ ] All features have Feature PRDs
 - [ ] Stories use US-001 format
 - [ ] Each story completable in ONE iteration (small enough)

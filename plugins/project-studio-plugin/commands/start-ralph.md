@@ -32,8 +32,8 @@ Initialize the Ralph autonomous agent environment for a feature.
 6. **Convert Feature PRD to prd.json**:
    - Read `.project-studio/features/{feature}/PRD.md`
    - Parse user stories, descriptions, acceptance criteria
-   - Output `prd.json` at project root with all stories `passes: false`
-7. **Initialize progress.txt** with header and timestamp
+   - Output `.ralph/prd.json` with all stories `passes: false`
+7. **Initialize .ralph/progress.txt** with header and timestamp
 8. **Report setup status** to user
 
 ## Directory Structure Created
@@ -42,9 +42,10 @@ Initialize the Ralph autonomous agent environment for a feature.
 project-root/
 ├── .ralph/
 │   ├── INSTRUCTIONS.md    # Ralph execution rules
-│   └── CLAUDE.md          # Combined instructions (created by run.sh)
-├── prd.json               # User stories (converted from Feature PRD)
-├── progress.txt           # Progress log
+│   ├── CLAUDE.md          # Combined instructions (created by run.sh)
+│   ├── prd.json           # User stories (converted from Feature PRD)
+│   └── progress.txt       # Progress log
+├── CLAUDE.md              # User's project instructions (untouched)
 └── run.sh                 # Wrapper script
 ```
 
@@ -111,7 +112,7 @@ git checkout ralph/{feature-name}
 Read the Feature PRD markdown and convert to Ralph-compatible JSON format.
 
 **Source:** `.project-studio/features/{feature}/PRD.md`
-**Destination:** `prd.json` (project root)
+**Destination:** `.ralph/prd.json`
 
 #### Parsing Rules
 
@@ -208,10 +209,10 @@ A dashboard for users to view their activity.
 
 ### Step 7: Initialize Progress Log
 ```bash
-# Create progress.txt if it doesn't exist
-echo "# Ralph Progress Log" > progress.txt
-echo "Started: $(date)" >> progress.txt
-echo "---" >> progress.txt
+# Create progress.txt in .ralph/ directory
+echo "# Ralph Progress Log" > .ralph/progress.txt
+echo "Started: $(date)" >> .ralph/progress.txt
+echo "---" >> .ralph/progress.txt
 ```
 
 ## Output
@@ -224,13 +225,13 @@ echo "---" >> progress.txt
 
 ### Files Created
 - `.ralph/INSTRUCTIONS.md` - Ralph execution rules
+- `.ralph/prd.json` - 5 user stories (all passes: false)
+- `.ralph/progress.txt` - Progress log initialized
 - `run.sh` - Wrapper script (executable)
-- `prd.json` - 5 user stories (all passes: false)
-- `progress.txt` - Progress log initialized
 
 ### Next Steps
 1. Execute `./run.sh` to start Ralph autonomous execution
-2. Monitor progress in `progress.txt`
+2. Monitor progress in `.ralph/progress.txt`
 3. When complete, run `/archive-feature` to clean up
 ```
 
@@ -284,6 +285,7 @@ Manual review of prd.json may be needed.
 ## Notes
 
 - This command sets up the environment AND converts the PRD; it does NOT start Ralph execution
-- The `run.sh` script combines `.ralph/INSTRUCTIONS.md` with project `CLAUDE.md`
-- Progress is tracked in `progress.txt` at project root
+- The `run.sh` script combines `.ralph/INSTRUCTIONS.md` with project `CLAUDE.md` into `.ralph/CLAUDE.md`
+- All Ralph files (`prd.json`, `progress.txt`, `CLAUDE.md`) are kept in `.ralph/` to avoid conflicts with user's project files
+- Progress is tracked in `.ralph/progress.txt`
 - Feature PRD must exist at `.project-studio/features/{feature}/PRD.md` before running this command

@@ -1,0 +1,110 @@
+# Ralph Progress Log
+Started: Wed Jan 21 01:20:42 EET 2026
+---
+
+## Codebase Patterns
+- Templates go in `assets/templates/` directory
+- Template files use `.md` extension with descriptive names like `ralph-instructions.md`
+- Commands go in `commands/` directory with YAML frontmatter (name, description)
+- Checklists go in `references/checklists/` directory with validation rules
+- Phase documentation goes in `references/phases/` with Entry Criteria, Key Activities, Gate Checklist sections
+- This is a markdown-only Claude plugin - no TypeScript/package.json to typecheck
+
+---
+
+## 2026-01-21 01:25 EET - US-001
+- **Implemented:** Created Ralph Instructions Template at `assets/templates/ralph-instructions.md`
+- **Files changed:**
+  - `assets/templates/ralph-instructions.md` (new)
+- **Learnings for future iterations:**
+  - Pattern: The scripts/CLAUDE.md is the active Ralph instructions file for this project itself
+  - Pattern: Templates in assets/templates/ are reusable for other projects
+  - Gotcha: "Typecheck passes" acceptance criteria is N/A for markdown-only plugins
+  - Context: The template should NOT include project-specific content (like `<claude-mem-context>` tags)
+---
+
+## 2026-01-21 01:28 EET - US-002
+- **Implemented:** Created run.sh template for Ralph wrapper at `assets/templates/ralph-run-sh.md`
+- **Files changed:**
+  - `assets/templates/ralph-run-sh.md` (new)
+- **Learnings for future iterations:**
+  - Pattern: Template files include both the script content (in code blocks) AND documentation about usage
+  - Pattern: Shell scripts in templates use color output for better UX (GREEN, YELLOW, RED with NC reset)
+  - Pattern: Scripts should validate prerequisites before proceeding (check for INSTRUCTIONS.md, prd.json)
+  - Gotcha: The run.sh combines instructions by concatenating files - order matters (Ralph instructions first, then project CLAUDE.md)
+  - Context: The combined CLAUDE.md is placed in .ralph/ directory to keep project root clean
+---
+
+## 2026-01-21 01:32 EET - US-003
+- **Implemented:** Created /start-ralph command at `commands/start-ralph.md`
+- **Files changed:**
+  - `commands/start-ralph.md` (new)
+- **Learnings for future iterations:**
+  - Pattern: Commands go in `commands/` directory with frontmatter (name, description) and detailed process documentation
+  - Pattern: Commands document both the user-facing usage AND the implementation steps for the agent
+  - Pattern: Error handling and edge cases should be documented in the command file
+  - Gotcha: This command sets up environment only - PRD conversion to prd.json is a separate story (US-004)
+  - Context: The command references templates from assets/templates/ that were created in US-001 and US-002
+  - Context: Git branch naming convention is `ralph/{feature-name}` for Ralph execution branches
+---
+
+## 2026-01-21 01:38 EET - US-004
+- **Implemented:** Added PRD-to-JSON conversion functionality to `/start-ralph` command
+- **Files changed:**
+  - `commands/start-ralph.md` (modified - added 137 lines)
+- **Learnings for future iterations:**
+  - Pattern: PRD parsing expects specific markdown format: `### US-XXX: {Title}`, `**Description:**`, and `- [ ]` for criteria
+  - Pattern: JSON schema for prd.json includes: project, branchName, description, userStories[] with id/title/description/acceptanceCriteria/priority/passes/notes
+  - Pattern: Include both parsing algorithm AND concrete examples (input/output) for clarity
+  - Gotcha: The checkbox syntax `- [ ]` is stripped to just extract the criteria text
+  - Gotcha: Project name in JSON is derived from PRD title (e.g., "User Dashboard" → "user-dashboard")
+  - Context: Feature PRD must exist at `.project-studio/features/{feature}/PRD.md` before running /start-ralph
+  - Context: All stories start with `passes: false` - Ralph updates this as it completes each story
+---
+
+## 2026-01-21 01:45 EET - US-005
+- **Implemented:** Added story sizing validation with dedicated checklist and skill integration
+- **Files changed:**
+  - `references/checklists/story-sizing.md` (new - 174 lines)
+  - `skills/story-writing/SKILL.md` (modified - added validation thresholds reference)
+- **Learnings for future iterations:**
+  - Pattern: Checklists go in `references/checklists/` directory with clear validation rules
+  - Pattern: Validation rules use tables for limits: description ≤3 sentences, criteria ≤5, files ≤5
+  - Pattern: Include warning message templates so agents know exactly how to format warnings
+  - Pattern: Cross-reference related documents (checklist links to skill, skill links to checklist)
+  - Gotcha: "Typecheck passes" is N/A for markdown-only plugins (established in US-001)
+  - Context: The story-sizing.md includes integration guidance for /start-ralph command
+  - Context: Splitting strategies are documented by layer, operation, component, and data flow
+---
+
+## 2026-01-21 01:47 EET - US-006
+- **Implemented:** Created /archive-feature command at `commands/archive-feature.md`
+- **Files changed:**
+  - `commands/archive-feature.md` (new - 290 lines)
+- **Learnings for future iterations:**
+  - Pattern: Archive commands should verify preconditions (all stories complete) before proceeding
+  - Pattern: Archive directory naming uses date prefix for chronological ordering: `{date}-{feature}/`
+  - Pattern: Cleanup should be selective - keep reusable templates (INSTRUCTIONS.md), remove generated files (CLAUDE.md)
+  - Pattern: Commands should handle state.yaml updates for feature tracking (status, counters)
+  - Gotcha: The .ralph/INSTRUCTIONS.md template should be preserved for future features
+  - Gotcha: Need to handle edge case of archive directory already existing (use unique suffix)
+  - Context: This command pairs with /start-ralph - start sets up, archive cleans up
+  - Context: The command does NOT create a PR or merge branches - those are separate concerns
+---
+
+## 2026-01-21 01:55 EET - US-007
+- **Implemented:** Updated orchestration for Ralph workflow phase
+- **Files changed:**
+  - `references/phases/06-ralph-execution.md` (new - 318 lines)
+  - `skills/orchestration/SKILL.md` (modified - added Ralph execution tracking, state transitions, resume capability)
+  - `assets/templates/orchestration-state-template.yaml` (modified - added ralph section)
+- **Learnings for future iterations:**
+  - Pattern: Phase documentation includes Entry Criteria, Key Activities, State Tracking, Phase Gate Checklist
+  - Pattern: State tracking uses nested YAML structure (ralph.stories.total, ralph.last_iteration.commit_sha)
+  - Pattern: Resume capability relies on detecting ralph.active_session AND checking prd.json for incomplete stories
+  - Pattern: Document both the happy path AND interruption recovery for autonomous workflows
+  - Gotcha: Phase 6 now has two variants: traditional (06-development.md) and Ralph (06-ralph-execution.md)
+  - Gotcha: The /phase ralph command shows status, while /start-ralph initializes - different purposes
+  - Context: State transitions are: /start-ralph → story iterations → /archive-feature
+  - Context: The orchestration skill uses gate checks 5→6R and 6R→7 specifically for Ralph execution path
+---

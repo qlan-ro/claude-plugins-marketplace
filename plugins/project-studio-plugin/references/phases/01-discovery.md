@@ -58,26 +58,39 @@ After clarification, generate a **dependency-ordered** feature list:
 
 ### Foundation (Build First)
 These must exist before anything else can work.
-1. User authentication
-2. Core data models/schema
-3. Basic API structure
+1. **Project Scaffolding** ← ALWAYS FIRST
+2. User authentication (if needed)
+3. Core data models/schema
+4. Basic API structure
 
 ### Core MVP (Depends on Foundation)
 The minimum features that deliver value.
-4. [Primary feature]
 5. [Primary feature]
 6. [Primary feature]
+7. [Primary feature]
 
 ### Enhanced MVP (Depends on Core)
 Features that complete the MVP experience.
-7. [Enhancement]
 8. [Enhancement]
+9. [Enhancement]
 
 ### Post-MVP (Future)
 Features explicitly deferred.
-9. [Future feature]
 10. [Future feature]
+11. [Future feature]
 ```
+
+**CRITICAL: Project Scaffolding must ALWAYS be Feature #1**
+
+The Project Scaffolding feature sets up:
+- Package manager config (package.json, pyproject.toml, etc.)
+- Build tooling (TypeScript, Vite, etc.)
+- Testing framework (Jest, Vitest, pytest)
+- Linting/formatting (ESLint, Prettier, Ruff)
+- Project structure (src/, tests/, etc.)
+- CI configuration (optional)
+
+Without this, Ralph cannot run typechecks, tests, or builds. This feature MUST complete before any other feature starts.
 
 **Why ordering matters:** This sets up Phase 5 (Planning) to generate Feature PRDs in the correct execution order.
 
@@ -134,6 +147,7 @@ Before proceeding to AI Workflow:
 - [ ] Target user clearly defined
 - [ ] Problem statement articulated
 - [ ] Feature backlog created with dependency order
+- [ ] **Project Scaffolding is Feature #1 in Foundation**
 - [ ] Non-goals explicitly stated
 - [ ] Success criteria defined
 - [ ] User has approved the Product PRD
@@ -174,19 +188,20 @@ Before proceeding to AI Workflow:
 **Generate backlog:**
 ```
 ### Foundation
-1. User authentication (Apple Sign-In)
-2. Session data model
+1. Project Scaffolding (Swift/SwiftUI, Xcode project, tests)
+2. User authentication (Apple Sign-In)
+3. Session data model
 
 ### Core MVP
-3. Watch app: session recording
-4. Mobile app: session list
-5. Heatmap visualization
+4. Watch app: session recording
+5. Mobile app: session list
+6. Heatmap visualization
 
 ### Enhanced MVP
-6. Statistics dashboard
-7. Progress trends
+7. Statistics dashboard
+8. Progress trends
 
 ### Post-MVP
-8. Social sharing
-9. Team features
+9. Social sharing
+10. Team features
 ```

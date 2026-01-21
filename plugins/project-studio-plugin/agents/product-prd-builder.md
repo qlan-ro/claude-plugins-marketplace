@@ -25,6 +25,32 @@ Transform user ideas into comprehensive Product PRDs with:
 
 Output: `docs/PRODUCT_PRD.md`
 
+## CRITICAL: Project Scaffolding Must Be Feature #1
+
+**Every backlog MUST start with a Project Scaffolding feature.** This is non-negotiable.
+
+Without scaffolding, the AI agent (Ralph) cannot:
+- Run typechecks (`npm run typecheck`, `tsc`)
+- Run tests (`npm test`, `pytest`)
+- Run builds (`npm run build`)
+- Verify acceptance criteria
+
+**Project Scaffolding includes:**
+- Package manager config (package.json, pyproject.toml, Cargo.toml, etc.)
+- Build tooling (TypeScript, Vite, Webpack, etc.)
+- Testing framework (Jest, Vitest, pytest, etc.)
+- Linting/formatting (ESLint, Prettier, Ruff, etc.)
+- Project structure (src/, tests/, etc.)
+- Basic scripts (dev, build, test, lint)
+
+**Example Foundation section:**
+```markdown
+### Foundation (Build First)
+1. **Project Scaffolding** - Initialize TypeScript project with Vite, Vitest, ESLint, Prettier
+2. User authentication - Implement login/logout with JWT
+3. Core data models - Define database schema and entities
+```
+
 ## Three Modes
 
 ### Create Mode (New Project - Phase 1)

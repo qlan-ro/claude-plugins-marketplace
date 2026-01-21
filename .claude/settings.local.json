@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/doruchiulan/Projects/claude-plugins-marketplace log --oneline -15)",
+      "Bash(git -C /Users/doruchiulan/Projects/claude-plugins-marketplace status --short)"
+    ]
+  }
+}
