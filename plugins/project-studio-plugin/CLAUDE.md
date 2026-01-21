@@ -41,6 +41,7 @@ claude /project-studio:continue-project /path/to/project
 | `/project-studio:commit [message]` | Commit with conventional message |
 | `/project-studio:pr [--draft]` | Create pull request for feature branch |
 | `/project-studio:workflow-status [--verbose]` | Show state and pending items |
+| `/project-studio:quick-fix [task]` | Execute small fixes with doc impact check |
 
 ## Environment Variables
 
@@ -62,7 +63,7 @@ project-studio-plugin/
 │   ├── designer.md             # UX specs (create/extraction/amendment)
 │   ├── feature-prd-builder.md  # Story breakdown (US-XXX format)
 │   └── codebase-analyzer.md    # Existing codebase analysis
-├── commands/                   # 10 slash commands
+├── commands/                   # 11 slash commands
 ├── skills/                     # 7 domain-specific skills
 │   ├── prd-discovery/          # Idea → PRD transformation
 │   ├── orchestration/          # Phase routing and state

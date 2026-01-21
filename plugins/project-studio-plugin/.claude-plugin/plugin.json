@@ -1,6 +1,6 @@
 {
   "name": "project-studio",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "Full-stack product development orchestration from idea to production-ready code. Provides specialized agents for PRD building, architecture design, UX design, and implementation planning - all optimized for AI agent execution (Ralph loop).",
   "author": {
     "name": "Doru Chiulan",
