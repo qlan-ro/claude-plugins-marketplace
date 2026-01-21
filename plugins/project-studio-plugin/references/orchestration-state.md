@@ -212,7 +212,7 @@ resume_context:
     - "Real-time features needed?"
 ```
 
-Human-readable context for the next session. This is what `/resume` displays.
+Human-readable context for the next session. This is what `/workflow-status` displays.
 
 ### Artifact Tracking
 
@@ -294,7 +294,7 @@ brew install yq  # macOS
 
 ## Commands
 
-### `/resume`
+### `/workflow-status`
 
 Shows current state and recommendations for continuing:
 
@@ -329,7 +329,7 @@ Enhanced with state file data (shows both artifact-based and state-based status)
 
 When opening Claude Code on a project:
 ```
-/resume
+/workflow-status
 ```
 
 This loads context and shows what to do next.

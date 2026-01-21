@@ -40,7 +40,7 @@ claude /continue-project /path/to/project
 | `/archive-feature [feature]` | Archive completed feature artifacts |
 | `/commit [message]` | Commit with conventional message |
 | `/pr [--draft]` | Create pull request for feature branch |
-| `/resume [--verbose]` | Show state and pending items |
+| `/workflow-status [--verbose]` | Show state and pending items |
 
 ## Environment Variables
 

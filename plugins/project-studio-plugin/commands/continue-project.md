@@ -39,7 +39,7 @@ Before beginning, initialize the orchestration state file for session continuity
 
 This enables:
 - Session history tracking
-- Resume capability via `/resume`
+- Resume capability via `/workflow-status`
 - Pending decision tracking
 - Artifact change logging
 

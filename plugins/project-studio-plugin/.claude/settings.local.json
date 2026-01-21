@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Skill(ralph)",
-      "Bash(./run.sh)"
+      "Bash(./run.sh)",
+      "Bash(ls:*)"
     ]
   }
 }

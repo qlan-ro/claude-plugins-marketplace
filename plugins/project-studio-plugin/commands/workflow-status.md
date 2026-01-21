@@ -1,11 +1,11 @@
 ---
-name: resume
-description: Resume a project workflow from where you left off. Reads orchestration state and provides context for continuation.
+name: workflow-status
+description: Show workflow state and recommendations for continuing. Reads orchestration state and provides context for next steps.
 ---
 
-# Resume Workflow
+# Workflow Status
 
-Resume a project workflow from the previous session's state.
+Show project workflow state and recommendations for continuing.
 
 ## Arguments
 
@@ -13,8 +13,8 @@ $ARGUMENTS
 
 ## Usage
 
-- `/resume` - Show current state and recommendations for continuing
-- `/resume --verbose` - Show detailed state including all session history
+- `/workflow-status` - Show current state and recommendations for continuing
+- `/workflow-status --verbose` - Show detailed state including all session history
 
 ## How It Works
 
@@ -28,7 +28,7 @@ This command reads `.project-studio/state.yaml` to understand:
 
 ## Implementation
 
-When `/resume` is invoked:
+When `/workflow-status` is invoked:
 
 ### 1. Check for State File
 
@@ -86,7 +86,7 @@ Before continuing, automatically read:
 ### Basic Resume
 
 ```
-User: /resume
+User: /workflow-status
 
 🔄 Resuming Project: task-manager-app
 
@@ -114,7 +114,7 @@ Current Phase: Architecture (Phase 3) - IN PROGRESS
 ### Verbose Resume
 
 ```
-User: /resume --verbose
+User: /workflow-status --verbose
 
 🔄 Resuming Project: task-manager-app
 ==================================
@@ -226,7 +226,7 @@ This directory may also contain:
 
 ## Integration with Other Commands
 
-The `/resume` command works with:
+The `/workflow-status` command works with:
 
 - **`/phase`** - Respects current phase from state
 - **`/gate-check`** - Records results to state

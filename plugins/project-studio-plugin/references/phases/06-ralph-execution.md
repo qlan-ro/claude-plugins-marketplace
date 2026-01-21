@@ -202,7 +202,7 @@ Interruption detected:
 
 ### Detection
 
-When running `/resume` command, orchestrator checks:
+When running `/workflow-status` command, orchestrator checks:
 1. Is `ralph.active_session == true`?
 2. Does `prd.json` exist with incomplete stories?
 3. Does `progress.txt` show partial completion?
@@ -210,7 +210,7 @@ When running `/resume` command, orchestrator checks:
 ### Resume Flow
 
 ```markdown
-User: /resume
+User: /workflow-status
 
 Orchestrator detects:
 - Ralph session was active
@@ -241,7 +241,7 @@ Output:
 
 ### Manual Resume
 
-If `/resume` doesn't work, manual recovery:
+If `/workflow-status` doesn't work, manual recovery:
 
 ```bash
 # Check current state

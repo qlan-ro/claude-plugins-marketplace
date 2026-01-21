@@ -224,7 +224,7 @@ resume_context:        # Next session guidance
 
 When starting a new Claude Code session:
 
-1. Run `/resume` to see current state and recommendations
+1. Run `/workflow-status` to see current state and recommendations
 2. State file shows:
    - Current phase and status
    - Pending decisions/blockers
@@ -291,7 +291,7 @@ ralph:
 
 ### Resuming Ralph Sessions
 
-The `/resume` command checks for active Ralph sessions:
+The `/workflow-status` command checks for active Ralph sessions:
 
 1. **Detection**: `ralph.active_session == true` OR `prd.json` exists with incomplete stories
 2. **Context**: Shows completed vs remaining stories, last commit
@@ -325,7 +325,7 @@ Example resume output:
 | `/start-ralph [feature]` | Initialize Ralph environment |
 | `/archive-feature [feature]` | Archive completed session |
 | `/phase ralph` | Show Ralph execution status |
-| `/resume` | Resume interrupted session |
+| `/workflow-status` | Resume interrupted session |
 
 See `commands/start-ralph.md` and `commands/archive-feature.md` for details.
 
