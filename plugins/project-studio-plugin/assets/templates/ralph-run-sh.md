@@ -110,18 +110,19 @@ if [ ! -f "$PROGRESS_FILE" ]; then
 fi
 
 # Function to show status and return remaining count
+# Display goes to stderr, only the count goes to stdout (for capture)
 show_status() {
     TOTAL=$(jq '.userStories | length' "$PRD_FILE" 2>/dev/null || echo "0")
     PASSED=$(jq '[.userStories[] | select(.passes == true)] | length' "$PRD_FILE" 2>/dev/null || echo "0")
     REMAINING=$((TOTAL - PASSED))
 
-    echo ""
-    echo -e "${CYAN}📋 PRD Status:${NC}"
-    echo "   Total: $TOTAL | Completed: $PASSED | Remaining: $REMAINING"
+    echo "" >&2
+    echo -e "${CYAN}📋 PRD Status:${NC}" >&2
+    echo "   Total: $TOTAL | Completed: $PASSED | Remaining: $REMAINING" >&2
 
     if [ "$REMAINING" -gt 0 ]; then
         NEXT_STORY=$(jq -r '.userStories | map(select(.passes == false)) | sort_by(.priority) | .[0] | "\(.id): \(.title)"' "$PRD_FILE" 2>/dev/null || echo "Unknown")
-        echo -e "   ${BLUE}Next: $NEXT_STORY${NC}"
+        echo -e "   ${BLUE}Next: $NEXT_STORY${NC}" >&2
     fi
 
     echo "$REMAINING"
@@ -158,12 +159,11 @@ run_iteration() {
     echo -e "${GREEN}═══════════════════════════════════════════════════════════════${NC}"
     echo ""
 
-    # Run Claude Code from .ralph/ directory
-    # - NO --print flag: allows tool execution with streaming output
-    # - --dangerously-skip-permissions: autonomous tool execution
+    # Run Claude Code non-interactively
+    # -p (print mode): exits after task completes instead of entering interactive REPL
+    # --dangerously-skip-permissions: allows autonomous tool execution without prompts
     cd "$RALPH_DIR"
-    claude --dangerously-skip-permissions \
-        "Read prd.json and progress.txt. Implement the next user story following the Ralph loop instructions in CLAUDE.md."
+    claude -p --dangerously-skip-permissions "Read prd.json and progress.txt. Implement the next user story following the Ralph loop instructions in CLAUDE.md."
 
     return $?
 }
@@ -267,8 +267,8 @@ your-project/
 │  2. Show Status                                                  │
 │     Read prd.json, display progress                             │
 ├─────────────────────────────────────────────────────────────────┤
-│  3. Run Claude (streaming output)                                │
-│     claude --dangerously-skip-permissions "..."                 │
+│  3. Run Claude (non-interactive)                                 │
+│     claude -p --dangerously-skip-permissions "..."              │
 │     ├─ Reads prd.json, progress.txt                             │
 │     ├─ Implements next story                                    │
 │     ├─ Runs tests                                               │
@@ -286,8 +286,8 @@ your-project/
 
 | Before | After |
 |--------|-------|
-| `--print` flag (no tool execution) | No `--print` (tools execute) |
-| No output until done | **Streaming output in real-time** |
+| Interactive mode (hangs waiting for input) | **`-p` flag exits after task completes** |
+| No tool execution with `--print` | **`--dangerously-skip-permissions` enables tools** |
 | Single iteration only | **Loop mode with auto-continue** |
 | Check `<promise>COMPLETE</promise>` | Check `prd.json` for completion |
 

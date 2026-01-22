@@ -111,19 +111,20 @@ if [ ! -f "$PROGRESS_FILE" ]; then
   echo "---" >> "$PROGRESS_FILE"
 fi
 
-# Function to show status
+# Function to show status and return remaining count
+# Display goes to stderr, only the count goes to stdout (for capture)
 show_status() {
   TOTAL=$(jq '.userStories | length' "$PRD_FILE" 2>/dev/null || echo "0")
   PASSED=$(jq '[.userStories[] | select(.passes == true)] | length' "$PRD_FILE" 2>/dev/null || echo "0")
   REMAINING=$((TOTAL - PASSED))
 
-  echo ""
-  echo -e "${CYAN}📋 PRD Status:${NC}"
-  echo "   Total: $TOTAL | Completed: $PASSED | Remaining: $REMAINING"
+  echo "" >&2
+  echo -e "${CYAN}📋 PRD Status:${NC}" >&2
+  echo "   Total: $TOTAL | Completed: $PASSED | Remaining: $REMAINING" >&2
 
   if [ "$REMAINING" -gt 0 ]; then
     NEXT_STORY=$(jq -r '.userStories | map(select(.passes == false)) | sort_by(.priority) | .[0] | "\(.id): \(.title)"' "$PRD_FILE" 2>/dev/null || echo "Unknown")
-    echo -e "   ${BLUE}Next: $NEXT_STORY${NC}"
+    echo -e "   ${BLUE}Next: $NEXT_STORY${NC}" >&2
   fi
 
   echo "$REMAINING"
@@ -165,11 +166,11 @@ run_iteration() {
   echo -e "${GREEN}═══════════════════════════════════════════════════════════════${NC}"
   echo ""
 
-  # Run Claude Code - NO --print flag, streams output in real-time
-  # --dangerously-skip-permissions allows autonomous tool execution
+  # Run Claude Code non-interactively
+  # -p (print mode): exits after task completes instead of entering interactive REPL
+  # --dangerously-skip-permissions: allows autonomous tool execution without prompts
   cd "$SCRIPT_DIR"
-  claude --dangerously-skip-permissions \
-    "Read prd.json and progress.txt. Implement the next user story following the Ralph loop instructions in CLAUDE.md."
+  claude -p --dangerously-skip-permissions "Read prd.json and progress.txt. Implement the next user story following the Ralph loop instructions in CLAUDE.md."
 
   return $?
 }
