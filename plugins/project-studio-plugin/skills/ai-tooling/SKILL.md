@@ -261,9 +261,32 @@ for ALL your projects.
 Create now? [Yes / Skip]
 ```
 
-## Step 6: Generate Project CLAUDE.md
+## Step 6: Generate Project CLAUDE.md and AGENTS.md
 
-Output: `CLAUDE.md` at project root
+Output: `CLAUDE.md` and `AGENTS.md` at project root
+
+### AGENTS.md (Simple Pointer)
+
+Always create `AGENTS.md` alongside `CLAUDE.md`:
+
+```markdown
+# AI Agent Instructions
+
+For project-specific instructions, conventions, and guidelines, see:
+
+👉 **[CLAUDE.md](./CLAUDE.md)**
+
+This file contains:
+- Project overview and tech stack
+- Development commands
+- Coding conventions
+- Architecture decisions
+- Security rules (NEVER do)
+```
+
+This file is a standard convention recognized by various AI coding assistants.
+
+### CLAUDE.md (Full Instructions)
 
 Use template at `assets/templates/project-claude-md-template.md` and fill:
 - `{{PROJECT_NAME}}` - from PRD
@@ -529,6 +552,7 @@ skills:
 - [ ] Recommendations presented to user
 - [ ] User approved or customized
 - [ ] Project `CLAUDE.md` generated (with chat hygiene guidelines)
+- [ ] Project `AGENTS.md` generated (pointer to CLAUDE.md)
 - [ ] `.ai-workflow.yaml` generated
 
 ## Checklist: Audit Mode
@@ -536,12 +560,14 @@ skills:
 - [ ] Existing config detected and parsed
 - [ ] Global `~/.claude/CLAUDE.md` checked (exists or user notified)
 - [ ] Project `CLAUDE.md` checked (exists or will be generated)
+- [ ] Project `AGENTS.md` checked (exists or will be generated)
 - [ ] Tech stack read from analysis docs
 - [ ] LSP status checked for all detected languages
 - [ ] Gap analysis completed (including Context7 MCP)
 - [ ] New feature needs identified
 - [ ] Recommendations presented
 - [ ] Project `CLAUDE.md` generated if missing
+- [ ] Project `AGENTS.md` generated if missing
 - [ ] Config updated or created
 
 ---

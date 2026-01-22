@@ -32,6 +32,58 @@ For every major decision, present options with pros/cons:
 
 Always explain WHY you recommend something.
 
+## Required Decision Points
+
+**ALWAYS ask the user about these decisions** (don't assume defaults):
+
+### 1. UI Component Library (for web/mobile apps)
+
+```markdown
+### Decision: UI Component Library
+
+| Option | Pros | Cons | Best For |
+|--------|------|------|----------|
+| **shadcn/ui** | Full control, copy-paste, Radix primitives | Manual setup | Custom design systems |
+| **Radix UI** | Unstyled, accessible, composable | Styling required | Accessibility-first |
+| **Chakra UI** | Batteries-included, good DX | Larger bundle | Rapid prototyping |
+| **MUI (Material)** | Comprehensive, Material design | Opinionated styling | Material Design apps |
+| **Headless UI** | Unstyled, Tailwind-friendly | Limited components | Tailwind projects |
+| **None** | Maximum control | Build from scratch | Minimal UI needs |
+
+**Question:** Which UI component library do you prefer?
+```
+
+### 2. Styling Approach
+
+```markdown
+### Decision: Styling Approach
+
+| Option | Pros | Cons | Best For |
+|--------|------|------|----------|
+| **Tailwind CSS** | Utility-first, fast iteration | Verbose HTML | Most projects |
+| **CSS Modules** | Scoped, standard CSS | More files | CSS purists |
+| **styled-components** | CSS-in-JS, dynamic | Runtime cost | Component libraries |
+| **Vanilla CSS** | No build step, standard | Global scope issues | Simple projects |
+
+**Question:** Which styling approach do you prefer?
+```
+
+### 3. State Management (if applicable)
+
+```markdown
+### Decision: State Management
+
+| Option | Pros | Cons | Best For |
+|--------|------|------|----------|
+| **React Query/TanStack** | Server state, caching | Learning curve | API-heavy apps |
+| **Zustand** | Simple, minimal boilerplate | Less structure | Small-medium apps |
+| **Jotai** | Atomic, flexible | Mental model shift | Complex state |
+| **Redux Toolkit** | Predictable, DevTools | Boilerplate | Large teams |
+| **Context only** | Built-in, simple | Perf issues at scale | Simple apps |
+
+**Question:** Which state management approach do you prefer?
+```
+
 ## Architecture Document Sections
 
 ### 1. Technology Stack
